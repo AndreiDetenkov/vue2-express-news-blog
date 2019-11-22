@@ -23,7 +23,7 @@ const createRouter = () => {
 
 		try {
 			const isCategoryExist = await Category.findOne({title});
-			if (isCategoryExist) res.status(400).send({error: 'This category already exist.'});
+			if (isCategoryExist) res.status(400).send({error: 'This category has already existed.'});
 			else {
 				try {
 					const category = new Category(req.body);

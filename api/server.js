@@ -25,7 +25,8 @@ db.once('open', () => {
 
   app.use('/categories', categories());
 
-  app.listen(port, () => {
-    console.log('test app listening on port 8000!');
+  app.listen(port, error => {
+    if (error) return console.log(`Server error ${error}`);
+    console.log('test app started on port 8000!');
   });
 });
