@@ -7,7 +7,7 @@ const UserSchema = new Schema({
   username: {
     type: String,
     required: true,
-    unique: true
+    unique: true,
   },
   password: {
     type: String,
@@ -16,12 +16,11 @@ const UserSchema = new Schema({
 });
 
 UserSchema.pre('save', async function(next) {
-  // if (!this.isModified('password')) return next();
+  if (!this.isModified('password')) return next();
   const SALT_WORK_FACTOR = 10;
 
   const salt = await bcrypt.genSalt(SALT_WORK_FACTOR);
   this.password = await bcrypt.hash(this.password, salt);
-  console.log('pass', this.password);
   next();
 });
 

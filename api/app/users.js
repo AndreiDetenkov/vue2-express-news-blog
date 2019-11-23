@@ -19,14 +19,21 @@ const createRouter = () => {
       try {
         const user = await new User({ username, password });
         const result = await user.save();
-        if (result) res.send({ message: `User "${result.username}" created successfully.` });
+        if (result) res.send({ message: `User "${result.username}" - created successfully.` });
       } catch (e) {
         return res.status(400).send({ message: 'Error. Unable to create new user.', error: e });
       }
     }
   });
 
-
+  router.get('/list', async (req, res) => {
+    try {
+      const users = await User.find();
+      if (users) return res.send(users);
+    } catch (error) {
+      return res.status(404).send({ message: 'There are not any users.' });
+    }
+  });
 
   return router;
 };
