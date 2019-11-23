@@ -13,6 +13,11 @@ const UserSchema = new Schema({
     type: String,
     required: true,
   },
+  role: {
+    type: String,
+    default: 'user',
+    enum: ['admin', 'user']
+  },
 });
 
 UserSchema.pre('save', async function(next) {
@@ -31,12 +36,18 @@ UserSchema.set('toJSON', {
   },
 });
 
-UserSchema.methods.generateToken = () => {
+UserSchema.methods.generateToken = function() {
   return nanoid();
 };
 
-UserSchema.methods.checkPassword = password => {
-  return bcrypt.compare(password, this.password);
+UserSchema.methods.comparePassword = function(candidatePassword) {
+  return bcrypt.compare(candidatePassword, this.password);
+};
+
+UserSchema.methods.cryptPass = async function(password) {
+  const salt = await bcrypt.genSalt(10);
+  const pass = await bcrypt.hash(password, salt);
+  if (pass) return pass;
 };
 
 const User = mongoose.model('User', UserSchema);

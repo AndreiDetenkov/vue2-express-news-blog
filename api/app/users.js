@@ -4,24 +4,34 @@ const User = require('../models/user');
 const createRouter = () => {
   const router = express.Router();
 
-  router.post('/create', async (req, res) => {
-    const { username, password } = req.body;
-
-    if (!username || !password)
+  let validateCredentials = (res, username, password, password2) => {
+    if (!username || !password || !password2)
       return res.status(400).send({ message: 'Username and Password are required' });
-    if (password.length < 6)
+    if (username && username.length < 4)
+      return res.status(400).send({ message: 'Username must be more than 4 characters.' });
+    if (password.length < 6 || password2.length < 6)
       return res.status(400).send({ message: 'Password must be more than 6 characters.' });
+  };
+
+  router.post('/create', async (req, res) => {
+    const { username, password, password2, role } = req.body;
+
+    validateCredentials(res, username, password, password2);
 
     const user = await User.findOne({ username });
     if (user)
       return res.status(400).send({ message: `The user "${username}" - has already existed.` });
     else {
-      try {
-        const user = await new User({ username, password });
-        const result = await user.save();
-        if (result) res.send({ message: `User "${result.username}" - created successfully.` });
-      } catch (e) {
-        return res.status(400).send({ message: 'Error. Unable to create new user.', error: e });
+      if (password === password2) {
+        try {
+          const user = await new User({ username, password, role });
+          const result = await user.save();
+          if (result) return res.send({ message: `"${result.username}" - created successfully.` });
+        } catch (e) {
+          return res.status(400).send({ message: 'Error. Unable to create new user.', error: e });
+        }
+      } else {
+        return res.status(400).send({ message: 'The entered passwords do not match' });
       }
     }
   });
@@ -40,10 +50,36 @@ const createRouter = () => {
     // TODO: add validation - do not remove user if the user uses in article
     try {
       const result = await User.findByIdAndRemove(id);
-      if (result) res.status(200).send({message: 'The User removed successfully.'});
+      if (result) res.status(200).send({ message: 'The User removed successfully.' });
       else return res.status(404).send({ message: `The User not found.` });
     } catch (e) {
       return res.status(400).send({ message: 'Error. Unable to removed the user.' });
+    }
+  });
+
+  router.put('/update-username/:id', async (req, res) => {
+    const id = req.params.id;
+    if (!req.body.username) return res.status(400).send({ message: 'Username is required' });
+
+    try {
+      const query = await User.findByIdAndUpdate(id, { username: req.body.username });
+      if (query) return res.send({ message: `Username updated successfully.` });
+    } catch (e) {
+      return res.status(400).send({ message: 'Error. Unable to update the username.' });
+    }
+  });
+
+  router.put('/update-pass/:id', async (req, res) => {
+    const id = req.params.id;
+    if (!req.body.password) return res.status(400).send({ message: 'Password is required' });
+
+    try {
+      const user = await User.findOne({ _id: id });
+      const newPass = await user.cryptPass(req.body.password);
+      const query = await User.findByIdAndUpdate(id, { password: newPass });
+      if (query) return res.send({ message: `Password updated successfully.` });
+    } catch (e) {
+      return res.status(400).send({ message: 'Error. Unable to update the username.' });
     }
   });
 
