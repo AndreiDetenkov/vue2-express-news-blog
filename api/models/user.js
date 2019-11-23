@@ -3,24 +3,11 @@ const bcrypt = require('bcrypt');
 const nanoid = require('nanoid');
 
 const Schema = mongoose.Schema;
-
 const UserSchema = new Schema({
   username: {
     type: String,
     required: true,
-    unique: true,
-    validate: {
-      validator: async value => {
-        if (!this.isModified('username')) return true;
-
-        const user = await User.findOne({ username: value });
-        if (user) throw new Error(`The username ${value} has already existed.`);
-        return true;
-      },
-      message: async props => {
-        return `The username ${props} has already existed.`;
-      },
-    },
+    unique: true
   },
   password: {
     type: String,
@@ -28,13 +15,13 @@ const UserSchema = new Schema({
   },
 });
 
-UserSchema.pre('save', async next => {
-  if (!this.isModified('password')) return next();
+UserSchema.pre('save', async function(next) {
+  // if (!this.isModified('password')) return next();
   const SALT_WORK_FACTOR = 10;
 
   const salt = await bcrypt.genSalt(SALT_WORK_FACTOR);
   this.password = await bcrypt.hash(this.password, salt);
-
+  console.log('pass', this.password);
   next();
 });
 
@@ -45,11 +32,11 @@ UserSchema.set('toJSON', {
   },
 });
 
-UserSchema.methods.generateToken = function() {
+UserSchema.methods.generateToken = () => {
   return nanoid();
 };
 
-UserSchema.methods.checkPassword = function(password) {
+UserSchema.methods.checkPassword = password => {
   return bcrypt.compare(password, this.password);
 };
 
