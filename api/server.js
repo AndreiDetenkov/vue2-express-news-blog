@@ -2,6 +2,7 @@ const express = require('express');
 const cors = require('cors');
 const mongoose = require('mongoose');
 const categories = require('./app/categories');
+const users = require('./app/users');
 
 const app = express();
 app.use(cors());
@@ -14,9 +15,12 @@ mongoose.connect(uri, {
   useNewUrlParser: true,
 	useUnifiedTopology: true,
   useFindAndModify: false,
+  useCreateIndex: true,
 	autoReconnect: true,
-  reconnectTries: 5,
+  reconnectTries: 10,
   reconnectInterval: 500,
+  poolSize: 10,
+  bufferMaxEntries: 0,
   family: 4,
 });
 
@@ -25,9 +29,10 @@ db.once('open', () => {
   console.log('Mongoose connected!');
 
   app.use('/categories', categories());
+  app.use('/users', users());
 
   app.listen(port, error => {
-    if (error) return console.log(`Server error ${error}`);
+    if (error) return console.log(`Server error: ${error}`);
     console.log('test app started on port 8000!');
   });
 });
