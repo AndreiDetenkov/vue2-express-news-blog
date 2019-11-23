@@ -13,6 +13,7 @@ const uri =
 mongoose.connect(uri, {
   useNewUrlParser: true,
 	useUnifiedTopology: true,
+  useFindAndModify: false,
 	autoReconnect: true,
   reconnectTries: 5,
   reconnectInterval: 500,
