@@ -57,10 +57,9 @@ const createRouter = () => {
 
   router.delete('/remove/:id', async (req, res) => {
     const id = req.params.id;
-
+    // TODO: add validation - do not remove category if the category uses in article
     try {
       const result = await Category.findByIdAndRemove(id);
-      console.log(result);
       if (result) return res.status(200).send({ message: `The category removed successfully.` });
       else return res.status(404).send({ message: `The category not found.` });
     } catch (e) {

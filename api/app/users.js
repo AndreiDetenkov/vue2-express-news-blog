@@ -35,6 +35,18 @@ const createRouter = () => {
     }
   });
 
+  router.delete('/remove/:id', async (req, res) => {
+    const id = req.params.id;
+    // TODO: add validation - do not remove user if the user uses in article
+    try {
+      const result = await User.findByIdAndRemove(id);
+      if (result) res.status(200).send({message: 'The User removed successfully.'});
+      else return res.status(404).send({ message: `The User not found.` });
+    } catch (e) {
+      return res.status(400).send({ message: 'Error. Unable to removed the user.' });
+    }
+  });
+
   return router;
 };
 module.exports = createRouter;
