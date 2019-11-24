@@ -18,6 +18,9 @@ const UserSchema = new Schema({
     default: 'user',
     enum: ['admin', 'user']
   },
+  token: {
+    type: String
+  }
 });
 
 UserSchema.pre('save', async function(next) {

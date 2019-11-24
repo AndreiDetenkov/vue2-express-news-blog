@@ -16,7 +16,7 @@ const createRouter = () => {
   router.post('/create', async (req, res) => {
     const { username, password, password2, role } = req.body;
 
-    validateCredentials(res, username, password, password2);
+    await validateCredentials(res, username, password, password2);
 
     const user = await User.findOne({ username });
     if (user)
