@@ -9,8 +9,8 @@ const createRouter = () => {
       // const categories = await Category.find().populate({ path: 'parentId', select: 'title' });
       const categories = await Category.find();
       if (categories) return res.send(categories);
-    } catch (error) {
-      return res.status(404).send({ message: 'There are not any categories.' });
+    } catch (e) {
+      return res.status(404).send({ message: 'There are not any categories.', error: e });
     }
   });
 
@@ -18,8 +18,8 @@ const createRouter = () => {
     try {
       const categories = await Category.find({ parentId: null });
       if (categories) return res.send(categories);
-    } catch (error) {
-      return res.status(404).send({ message: 'There are not any parent categories.' });
+    } catch (e) {
+      return res.status(404).send({ message: 'There are not any parent categories.', error: e });
     }
   });
 
@@ -37,7 +37,7 @@ const createRouter = () => {
         const newCategory = await category.save();
         if (newCategory) return res.send({ message: 'The Category added successfully.' });
       } catch (e) {
-        return res.status(400).send({ message: 'Error. Unable to add new category.' });
+        return res.status(400).send({ message: 'Error. Unable to add new category.', error: e });
       }
     }
   });
@@ -48,10 +48,10 @@ const createRouter = () => {
 
     try {
       const result = await Category.findByIdAndUpdate(id, { title, parentId });
-      if (result) return res.status(200).send({ message: `The category "${title}" - updated successfully.` });
-      else return res.status(404).send({ message: `The category "${title}" - not found.` });
+      if (result) return res.status(200).send({ message: `The category updated successfully.` });
+      else return res.status(404).send({ message: `The category not found.` });
     } catch (e) {
-      return res.status(400).send({ message: 'Error. Unable to update the category.' });
+      return res.status(400).send({ message: 'Error. Unable to update the category.', error: e });
     }
   });
 
@@ -63,7 +63,7 @@ const createRouter = () => {
       if (result) return res.status(200).send({ message: `The category removed successfully.` });
       else return res.status(404).send({ message: `The category not found.` });
     } catch (e) {
-      return res.status(400).send({ message: 'Error. Unable to removed the category.' });
+      return res.status(400).send({ message: 'Error. Unable to removed the category.', error: e });
     }
   });
 
