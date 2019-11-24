@@ -1,5 +1,6 @@
 const express = require('express');
 const Category = require('../models/category');
+const isAuthorized = require('../middlewares/authentication');
 
 const createRouter = () => {
   const router = express.Router();
@@ -23,7 +24,7 @@ const createRouter = () => {
     }
   });
 
-  router.post('/add', async (req, res) => {
+  router.post('/add', isAuthorized, async (req, res) => {
     const { title, parentId } = req.body;
 
     if (!title) return res.status(400).send({ message: 'Please fill the gap - title.' });
