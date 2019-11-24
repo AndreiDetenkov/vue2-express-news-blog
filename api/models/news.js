@@ -20,15 +20,19 @@ const NewsSchema = new Schema({
     type: String,
     required: true
   },
-  image: {
-    type: String,
-    required: true
-  },
   date: {
     type: Date,
     default: Date.now
+  },
+  imageName: {
+    type: String,
+    required: true
+  },
+  imagePath: {
+    type: String,
+    required: true
   }
 });
 
-const News = mongoose.model('NewsSchema', NewsSchema);
+const News = mongoose.model('News', NewsSchema);
 module.exports = News;

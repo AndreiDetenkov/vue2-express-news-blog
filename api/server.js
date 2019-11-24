@@ -1,12 +1,15 @@
 const express = require('express');
 const cors = require('cors');
 const mongoose = require('mongoose');
+const path = require('path');
 const categories = require('./app/categories');
 const users = require('./app/users');
+const news = require('./app/news');
 
 const app = express();
 app.use(cors());
 app.use(express.json());
+app.use(express.static(path.join(__dirname, 'public')));
 
 const port = process.env.PORT || 8000;
 const uri =
@@ -30,6 +33,7 @@ db.once('open', () => {
 
   app.use('/categories', categories());
   app.use('/users', users());
+  app.use('/news', news());
 
   app.listen(port, error => {
     if (error) return console.log(`Server error: ${error}`);
