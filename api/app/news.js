@@ -18,6 +18,12 @@ const upload = multer({ storage: storage });
 const createRouter = () => {
   const router = express.Router();
 
+  const removeImage = path => {
+    fs.unlink(path, err => {
+      if (err) console.error(err);
+    });
+  };
+
   router.get('/list', async (req, res) => {
     try {
       const news = await News.find()
@@ -30,11 +36,6 @@ const createRouter = () => {
   });
 
   router.post('/add', upload.single('image'), async (req, res) => {
-    const removeImage = path => {
-      fs.unlink(path, err => {
-        if (err) console.error(err);
-      });
-    };
 
     for (let el in req.body) {
       if (!req.body[el]) {
@@ -56,6 +57,20 @@ const createRouter = () => {
       if (result) return res.send({ message: 'The news added successfully.' });
     } catch (e) {
       return res.status(400).send({ message: 'Error. Unable to add new news.' });
+    }
+  });
+
+  router.delete('/remove/:id', async (req, res) => {
+    const id = req.params.id;
+    try {
+      const result = await News.findByIdAndRemove(id);
+      if (result) {
+        removeImage(result.imagePath);
+        return res.status(200).send({ message: `The news removed successfully.` });
+      }
+      else return res.status(404).send({ message: `The news not found.` });
+    } catch (e) {
+      return res.status(400).send({ message: 'Error. Unable to removed the news.' });
     }
   });
 
