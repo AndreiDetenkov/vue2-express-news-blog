@@ -10,7 +10,7 @@ interceptors()
 
 new Vue({
   router,
-  vuetify,
   store,
+  vuetify,
   render: h => h(App)
 }).$mount('#app')
