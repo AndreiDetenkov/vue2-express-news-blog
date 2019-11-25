@@ -26,7 +26,7 @@ export default {
 </script>
 
 <style lang="scss">
-* {
+#app {
   font-size: 14px;
   font-weight: 400;
   color: #333;
