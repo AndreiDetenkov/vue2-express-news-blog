@@ -10,6 +10,6 @@ module.exports = async (req, res, next) => {
     req.user = user;
     next();
   } catch (e) {
-    return res.status(403).send({ message: 'Invalid request.', error: e });
+    return res.status(401).send({ message: 'Invalid request.', error: e });
   }
 };
