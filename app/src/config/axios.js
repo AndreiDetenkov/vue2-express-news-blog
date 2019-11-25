@@ -1,6 +1,8 @@
 import axios from 'axios'
 import router from '../router/index'
 
+axios.defaults.baseURL = process.env.NODE_ENV === 'development' ? 'http://localhost:8000/' : '/'
+
 export default function setup() {
   axios.interceptors.request.use(
     function(config) {
@@ -21,7 +23,7 @@ export default function setup() {
       switch (error.response.status) {
         case 401:
           sessionStorage.removeItem('token')
-          router.push({ path: '/login' })
+          router.push({ path: '/' })
           break
         case 500:
           alert('Error on server.')

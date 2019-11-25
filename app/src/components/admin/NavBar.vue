@@ -6,7 +6,7 @@
     <!--    </v-btn>-->
     <v-btn text @click="logout" class="mx-2">
       <v-icon left>exit_to_app</v-icon>
-      Выход
+      Logout
     </v-btn>
   </v-app-bar>
 </template>
@@ -16,7 +16,7 @@ export default {
   name: 'Navbar',
   methods: {
     logout() {
-      this.$store.commit('LOGOUT')
+      this.$store.dispatch('LOGOUT')
     }
   }
 }

@@ -35,9 +35,9 @@
             required
             class="pb-8"
           />
-          <v-btn color="accent" class="white--text" :disabled="!valid" large block type="submit"
-            >Login</v-btn
-          >
+          <v-btn color="accent" class="white--text" :disabled="!valid" large block type="submit">
+            Login
+          </v-btn>
         </v-form>
       </v-card-text>
     </v-card>
@@ -61,9 +61,12 @@ export default {
       v => (v && v.length >= 6) || 'Password must be more than 6 characters.'
     ]
   }),
-  computed: {},
   methods: {
-    onSubmit() {}
+    onSubmit() {
+      if (this.$refs.form.validate()) {
+        this.$store.dispatch('LOGIN', { username: this.username, password: this.password })
+      }
+    }
   }
 }
 </script>
