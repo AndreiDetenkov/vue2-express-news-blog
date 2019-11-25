@@ -1,5 +1,7 @@
 const express = require('express');
 const User = require('../models/user');
+const isAuthorized = require('../middlewares/authentication');
+
 
 const createRouter = () => {
   const router = express.Router();
@@ -13,7 +15,7 @@ const createRouter = () => {
       return res.status(400).send({ message: 'Password must be more than 6 characters.' });
   };
 
-  router.post('/create', async (req, res) => {
+  router.post('/create', isAuthorized, async (req, res) => {
     const { username, password, password2, role } = req.body;
 
     await validateCredentials(res, username, password, password2);
@@ -36,7 +38,7 @@ const createRouter = () => {
     }
   });
 
-  router.get('/list', async (req, res) => {
+  router.get('/list', isAuthorized, async (req, res) => {
     try {
       const users = await User.find();
       if (users) return res.send(users);
@@ -45,7 +47,7 @@ const createRouter = () => {
     }
   });
 
-  router.delete('/remove/:id', async (req, res) => {
+  router.delete('/remove/:id', isAuthorized, async (req, res) => {
     const id = req.params.id;
     // TODO: add validation - do not remove user if the user uses in article
     try {
@@ -57,7 +59,7 @@ const createRouter = () => {
     }
   });
 
-  router.put('/update-username/:id', async (req, res) => {
+  router.put('/update-username/:id', isAuthorized, async (req, res) => {
     const id = req.params.id;
     if (!req.body.username) return res.status(400).send({ message: 'Username is required' });
 
@@ -69,7 +71,7 @@ const createRouter = () => {
     }
   });
 
-  router.put('/update-pass/:id', async (req, res) => {
+  router.put('/update-pass/:id', isAuthorized, async (req, res) => {
     const id = req.params.id;
     if (!req.body.password) return res.status(400).send({ message: 'Password is required' });
 

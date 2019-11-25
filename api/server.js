@@ -5,6 +5,7 @@ const path = require('path');
 const categories = require('./app/categories');
 const users = require('./app/users');
 const news = require('./app/news');
+const admin = require('./app/admin');
 
 const app = express();
 app.use(cors());
@@ -34,6 +35,7 @@ db.once('open', () => {
   app.use('/categories', categories());
   app.use('/users', users());
   app.use('/news', news());
+  app.use('/admin', admin());
 
   app.listen(port, error => {
     if (error) return console.log(`Server error: ${error}`);

@@ -19,7 +19,8 @@ const UserSchema = new Schema({
     enum: ['admin', 'user']
   },
   token: {
-    type: String
+    type: String,
+    default: null
   }
 });
 
@@ -40,7 +41,7 @@ UserSchema.set('toJSON', {
 });
 
 UserSchema.methods.generateToken = function() {
-  return nanoid();
+  return nanoid(32);
 };
 
 UserSchema.methods.comparePassword = function(candidatePassword) {

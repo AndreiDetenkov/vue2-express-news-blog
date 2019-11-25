@@ -4,6 +4,7 @@ const nanoid = require('nanoid');
 const path = require('path');
 const fs = require('fs');
 const News = require('../models/news');
+const isAuthorized = require('../middlewares/authentication');
 
 const storage = multer.diskStorage({
   destination: function(req, file, cb) {
@@ -35,7 +36,7 @@ const createRouter = () => {
     }
   });
 
-  router.post('/add', upload.single('image'), async (req, res) => {
+  router.post('/add', [isAuthorized, upload.single('image')], async (req, res) => {
 
     for (let el in req.body) {
       if (!req.body[el]) {
@@ -60,7 +61,7 @@ const createRouter = () => {
     }
   });
 
-  router.delete('/remove/:id', async (req, res) => {
+  router.delete('/remove/:id', isAuthorized, async (req, res) => {
     const id = req.params.id;
     try {
       const result = await News.findByIdAndRemove(id);
@@ -74,7 +75,7 @@ const createRouter = () => {
     }
   });
 
-  router.put('/update/:id', upload.single('image'), async (req, res) => {
+  router.put('/update/:id', isAuthorized, upload.single('image'), async (req, res) => {
     const id = req.params.id;
     const data = req.body;
 

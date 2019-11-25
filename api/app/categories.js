@@ -43,7 +43,7 @@ const createRouter = () => {
     }
   });
 
-  router.put('/update/:id', async (req, res) => {
+  router.put('/update/:id', isAuthorized, async (req, res) => {
     const id = req.params.id;
     const { title, parentId } = req.body;
 
@@ -56,7 +56,7 @@ const createRouter = () => {
     }
   });
 
-  router.delete('/remove/:id', async (req, res) => {
+  router.delete('/remove/:id', isAuthorized, async (req, res) => {
     const id = req.params.id;
     // TODO: add validation - do not remove category if the category uses in article
     try {
