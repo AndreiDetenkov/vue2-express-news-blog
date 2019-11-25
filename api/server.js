@@ -1,26 +1,26 @@
 const express = require('express');
 const cors = require('cors');
 const mongoose = require('mongoose');
-const path = require('path');
 const categories = require('./app/categories');
 const users = require('./app/users');
 const news = require('./app/news');
 const admin = require('./app/admin');
+const mongodb = require('./config/mongodb');
 
 const app = express();
 app.use(cors());
 app.use(express.json());
-app.use(express.static(path.join(__dirname, 'public')));
+app.use(express.static('public'));
 
 const port = process.env.PORT || 8000;
-const uri =
-  'mongodb+srv://genius_spirit:KvRl9YNb0g53pfUl@cluster0-drwqg.mongodb.net/news?retryWrites=true&w=majority';
+const uri = `mongodb+srv://${mongodb.connect.login}:${mongodb.connect.password}@cluster0-drwqg.
+  mongodb.net/${mongodb.connect.dbName}?retryWrites=true&w=majority`;
 mongoose.connect(uri, {
   useNewUrlParser: true,
-	useUnifiedTopology: true,
+  useUnifiedTopology: true,
   useFindAndModify: false,
   useCreateIndex: true,
-	autoReconnect: true,
+  autoReconnect: true,
   reconnectTries: 10,
   reconnectInterval: 500,
   poolSize: 10,
