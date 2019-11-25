@@ -13,8 +13,7 @@ app.use(express.json());
 app.use(express.static('public'));
 
 const port = process.env.PORT || 8000;
-const uri = `mongodb+srv://${mongodb.connect.login}:${mongodb.connect.password}@cluster0-drwqg.
-  mongodb.net/${mongodb.connect.dbName}?retryWrites=true&w=majority`;
+const uri = `mongodb+srv://${mongodb.connect.login}:${mongodb.connect.password}@cluster0-drwqg.mongodb.net/${mongodb.connect.dbName}?retryWrites=true&w=majority`;
 mongoose.connect(uri, {
   useNewUrlParser: true,
   useUnifiedTopology: true,
