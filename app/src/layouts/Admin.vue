@@ -1,16 +1,16 @@
 <template>
   <v-content style="background:#e0e0e0;">
-    <Navbar />
-    <Sidebar />
+    <NavBar />
+    <SideBar />
     <router-view />
   </v-content>
 </template>
 
 <script>
-import Navbar from '../components/admin/Navbar'
-import Sidebar from '../components/admin/Sidebar'
+import NavBar from '../components/admin/NavBar'
+import SideBar from '../components/admin/SideBar'
 export default {
   name: 'Admin',
-  components: { Navbar, Sidebar }
+  components: { NavBar, SideBar }
 }
 </script>
