@@ -1,9 +1,13 @@
 <template>
-  <router-view />
+  <main>
+    <Notification />
+    <router-view />
+  </main>
 </template>
 
 <script>
 export default {
-  name: 'Main'
+  name: 'Main',
+  components: { Notification: () => import('@/components/ui/Notification') }
 }
 </script>

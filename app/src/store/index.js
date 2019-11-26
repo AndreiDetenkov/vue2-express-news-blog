@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
-import auth from './auth/index'
+import auth from './auth'
+import notification from './notification'
 
 Vue.use(Vuex)
 
@@ -9,6 +10,7 @@ export default new Vuex.Store({
   mutations: {},
   actions: {},
   modules: {
-    auth
+    auth,
+    notification
   }
 })

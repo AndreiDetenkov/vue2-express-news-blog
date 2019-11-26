@@ -1,6 +1,6 @@
 <template>
   <v-container fluid class="fill-height" id="gradient">
-    <v-row justify="center" align="center">
+    <v-row justify="center" align="center" no-gutters>
       <router-view />
     </v-row>
   </v-container>

@@ -1,6 +1,6 @@
 <template>
   <v-col cols="12" xs="12" sm="7" md="5" lg="4" xl="3">
-    <v-card class="elevation-10 pa-8" style="border-radius:25px;">
+    <v-card class="elevation-10 pa-4" style="border-radius:25px;">
       <v-card-title class="pb-10">
         <v-row justify="center">
           <h3 class="headline text-uppercase font-weight-bold">

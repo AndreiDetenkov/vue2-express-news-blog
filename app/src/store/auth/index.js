@@ -14,7 +14,7 @@ export default {
     }
   },
   actions: {
-    LOGIN({ commit }, { username, password }) {
+    LOGIN({ commit, dispatch }, { username, password }) {
       return axios({
         method: 'POST',
         url: '/admin/login',
@@ -22,36 +22,48 @@ export default {
       })
         .then(response => {
           commit('LOGIN_SUCCESS', response.data)
+          dispatch('NOTIFICATION', { open: true, color: 'success', text: response.data.message })
         })
         .catch(error => {
-          console.log(error)
-          commit('LOGIN_ERROR', error.response.data.error)
+          dispatch('NOTIFICATION', {
+            open: true,
+            color: 'error',
+            text: error.response.data.message
+          })
         })
     },
-    LOGOUT({ commit }) {
+    LOGOUT({ commit, dispatch }) {
       axios({
         method: 'DELETE',
         url: '/admin/logout'
       })
         .then(response => {
-          commit('LOGOUT_SUCCESS', response.data)
+          commit('LOGOUT_SUCCESS')
+          dispatch('NOTIFICATION', { open: true, color: 'success', text: response.data.message })
         })
         .catch(error => {
-          console.log(error)
-          commit('LOGOUT_ERROR', error.response.data.error)
+          dispatch('NOTIFICATION', {
+            open: true,
+            color: 'error',
+            text: error.response.data.message
+          })
         })
     },
-    SIGNUP({ commit }, { username, password, password2, role }) {
+    SIGNUP({ dispatch }, { username, password, password2, role }) {
       return axios({
         method: 'POST',
         url: '/users/create',
         data: { username, password, password2, role }
       })
         .then(response => {
-          commit('SIGNUP_SUCCESS', response.data)
+          dispatch('NOTIFICATION', { open: true, color: 'success', text: response.data.message })
         })
         .catch(error => {
-          commit('SIGNUP_ERROR', error.response.data.message)
+          dispatch('NOTIFICATION', {
+            open: true,
+            color: 'error',
+            text: error.response.data.message
+          })
         })
     }
   }

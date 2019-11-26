@@ -1,7 +1,9 @@
 <template>
-  <v-content style="background: #fff;">
+  <v-content>
     <AppBar />
-    <v-container> </v-container>
+    <v-container>
+      <p>news</p>
+    </v-container>
   </v-content>
 </template>
 
