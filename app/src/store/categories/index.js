@@ -17,6 +17,30 @@ export default {
     }
   },
   actions: {
+    REMOVE_CATEGORY({ commit, dispatch }, { id }) {
+      commit('LOADING', true)
+      return axios({
+        method: 'DELETE',
+        url: `/categories/remove/${id}`
+      })
+        .then(response => {
+          dispatch('GET_CATEGORIES')
+          commit('LOADING', false)
+          dispatch('NOTIFICATION', {
+            open: true,
+            color: 'success',
+            text: response.data.message
+          })
+        })
+        .catch(error => {
+          commit('LOADING', false)
+          dispatch('NOTIFICATION', {
+            open: true,
+            color: 'error',
+            text: error.response.data.message
+          })
+        })
+    },
     GET_CATEGORIES({ commit, dispatch }) {
       commit('LOADING', true)
       return axios({

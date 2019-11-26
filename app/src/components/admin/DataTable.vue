@@ -14,7 +14,7 @@
       </v-chip>
     </template>
     <template v-slot:item.removeAction="{ item }">
-      <v-chip outlined @click="openRemoveDialogHandler(item.id, item.name)">
+      <v-chip outlined @click="openRemoveDialogHandler(item.id, item.title)">
         <v-icon left color="error">close</v-icon>
         Remove
       </v-chip>

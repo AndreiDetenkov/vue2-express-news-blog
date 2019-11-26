@@ -1,6 +1,12 @@
 <template>
   <v-container fluid class="px-8">
     <Notification />
+    <RemoveDialog
+      :dialog="isRemoveDialog"
+      :name="categoryName"
+      @close-dialog="closeDialogHandler"
+      @remove-category="removeCategoryHandler"
+    />
     <v-row justify="start">
       <v-col cols="8" class="pl-0">
         <v-card color="#f9f9f9">
@@ -10,7 +16,7 @@
               :items="categories"
               :headers="headers"
               :loading="loading"
-              @open-dialog="openRemoveDialog"
+              @open-remove-dialog="openRemoveDialog"
               @edit-category="editCategoryHandler"
             />
           </v-card-text>
@@ -32,7 +38,8 @@ export default {
     CategoryForm: () => import('@/components/admin/CategoryForm'),
     DataTable: () => import('@/components/admin/DataTable'),
     CardToolbar: () => import('@/components/admin/CardToolbar'),
-    Notification: () => import('@/components/ui/Notification')
+    Notification: () => import('@/components/ui/Notification'),
+    RemoveDialog: () => import('@/components/admin/RemoveDialog')
   },
   data: () => ({
     headers: [
@@ -74,6 +81,15 @@ export default {
     },
     closeDialogHandler() {
       this.isRemoveDialog = false
+    },
+    async removeCategoryHandler() {
+      try {
+        await this.$store.dispatch('REMOVE_CATEGORY', { id: this.categoryId })
+        this.isRemoveDialog = false
+        this.categoryId = ''
+        this.categoryName = ''
+        // eslint-disable-next-line no-empty
+      } catch (e) {}
     },
     editCategoryHandler() {}
   }
