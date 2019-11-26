@@ -40,6 +40,19 @@ export default {
           console.log(error)
           commit('LOGOUT_ERROR', error.response.data.error)
         })
+    },
+    SIGNUP({ commit }, { username, password, password2, role }) {
+      return axios({
+        method: 'POST',
+        url: '/users/create',
+        data: { username, password, password2, role }
+      })
+        .then(response => {
+          commit('SIGNUP_SUCCESS', response.data)
+        })
+        .catch(error => {
+          commit('SIGNUP_ERROR', error.response.data.message)
+        })
     }
   }
 }

@@ -114,6 +114,7 @@ export default {
               role: 'user'
             })
             this.loading = false
+            this.isRegister = false
             // eslint-disable-next-line no-empty
           } catch (e) {}
         } else {

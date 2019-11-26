@@ -15,7 +15,7 @@ const createRouter = () => {
       return res.status(400).send({ message: 'Password must be more than 6 characters.' });
   };
 
-  router.post('/create', isAuthorized, async (req, res) => {
+  router.post('/create',async (req, res) => {
     const { username, password, password2, role } = req.body;
 
     await validateCredentials(res, username, password, password2);
@@ -28,7 +28,7 @@ const createRouter = () => {
         try {
           const user = await new User({ username, password, role });
           const result = await user.save();
-          if (result) return res.send({ message: `"${result.username}" - created successfully.` });
+          if (result) return res.send({ message: `"${result.username}" - registered successfully.` });
         } catch (e) {
           return res.status(400).send({ message: 'Error. Unable to create new user.', error: e });
         }

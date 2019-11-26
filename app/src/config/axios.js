@@ -23,7 +23,7 @@ export default function setup() {
       switch (error.response.status) {
         case 401:
           sessionStorage.removeItem('token')
-          router.push({ path: '/' })
+          router.push({ path: '/auth' })
           break
         case 500:
           alert('Error on server.')
