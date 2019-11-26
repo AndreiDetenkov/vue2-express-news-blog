@@ -72,6 +72,12 @@
               Register
             </span>
           </v-row>
+          <v-row justify="center" v-if="isRegister">
+            <span>Have an account?</span>
+            <span class="register-link" @click.prevent="isRegister = false">
+              Login
+            </span>
+          </v-row>
         </v-form>
       </v-card-text>
     </v-card>
