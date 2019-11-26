@@ -17,7 +17,9 @@
         </v-card>
       </v-col>
       <v-col cols="4" class="pr-0">
-        <CategoryForm :cardTitle="cardTitle" v-if="isCreateCategory" />
+        <transition name="slide" mode="out-in">
+          <CategoryForm v-if="isCategoryForm" :cardTitle="cardTitle" @close-form="closeHandler" />
+        </transition>
       </v-col>
     </v-row>
   </v-container>
@@ -43,27 +45,27 @@ export default {
     isRemoveDialog: false,
     categoryId: '',
     categoryName: '',
-    loading: false,
     cardTitle: '',
-    isCreateCategory: false
+    isCategoryForm: false
   }),
-  async mounted() {
-    try {
-      this.loading = true
-      await this.$store.dispatch('GET_CATEGORIES')
-      this.loading = false
-      // eslint-disable-next-line no-empty
-    } catch (e) {}
+  mounted() {
+    this.$store.dispatch('GET_CATEGORIES')
   },
   computed: {
     categories() {
       return this.$store.getters.viewCategories
+    },
+    loading() {
+      return this.$store.state.categories.loading
     }
   },
   methods: {
     createHandler() {
-      this.isCreateCategory = true
-      this.cardTitle = 'Add category'
+      this.isCategoryForm = true
+      this.cardTitle = 'Create category'
+    },
+    closeHandler() {
+      this.isCategoryForm = false
     },
     openRemoveDialog(id, name) {
       this.isRemoveDialog = true
@@ -77,3 +79,20 @@ export default {
   }
 }
 </script>
+
+<style scoped lang="scss">
+.slide-enter-active,
+.slide-leave-active {
+  transition: all 0.5s ease;
+}
+.slide-enter,
+.slide-leave-to {
+  opacity: 0;
+  transform: translateY(-100%);
+}
+.slide-inter-to,
+.slide-leave {
+  opacity: 1;
+  transform: translateY(0);
+}
+</style>
