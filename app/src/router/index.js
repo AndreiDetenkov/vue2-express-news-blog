@@ -11,9 +11,9 @@ const routes = [
     meta: { layout: 'news' }
   },
   {
-    path: '/login',
-    name: 'login',
-    component: () => import('../views/Login'),
+    path: '/auth',
+    name: 'auth',
+    component: () => import('../views/Auth'),
     meta: { layout: 'empty' }
   },
   {

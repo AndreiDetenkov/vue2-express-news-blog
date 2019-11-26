@@ -3,7 +3,7 @@
     <v-app-bar-nav-icon />
     <v-toolbar-title>News</v-toolbar-title>
     <v-spacer />
-    <v-btn text to="/login">
+    <v-btn text to="/auth">
       <v-icon left>exit_to_app</v-icon>
       Login
     </v-btn>
