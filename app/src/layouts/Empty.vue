@@ -1,5 +1,6 @@
 <template>
   <v-container fluid class="fill-height" id="gradient">
+    <Notification />
     <v-row justify="center" align="center" no-gutters>
       <router-view />
     </v-row>
@@ -8,7 +9,8 @@
 
 <script>
 export default {
-  name: 'Empty'
+  name: 'Empty',
+  components: { Notification: () => import('@/components/ui/Notification') }
 }
 </script>
 

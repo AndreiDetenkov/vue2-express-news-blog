@@ -2,9 +2,7 @@
   <v-content style="background:#e0e0e0;">
     <Notification />
     <NavBar />
-    <v-container>
-      <router-view />
-    </v-container>
+    <router-view />
   </v-content>
 </template>
 
