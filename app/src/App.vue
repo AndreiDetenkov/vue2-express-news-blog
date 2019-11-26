@@ -9,13 +9,13 @@
 <script>
 import Empty from '@/layouts/Empty'
 import Admin from '@/layouts/Admin'
-import News from '@/layouts/News'
+import Main from '@/layouts/Main'
 export default {
   name: 'App',
   components: {
     Empty,
     Admin,
-    News
+    Main
   },
   computed: {
     layout() {
