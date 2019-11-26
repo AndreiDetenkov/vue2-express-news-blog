@@ -20,9 +20,16 @@ const routes = [
     path: '/admin',
     name: 'admin',
     component: () => import('../views/Admin'),
-    meta: { layout: 'admin' }
+    meta: { layout: 'admin' },
+    beforeEnter: AuthGuard
   }
 ]
+
+function AuthGuard(to, from, next) {
+  let token = sessionStorage.getItem('token')
+  if (token) next()
+  else next('/')
+}
 
 const router = new VueRouter({
   mode: 'history',
