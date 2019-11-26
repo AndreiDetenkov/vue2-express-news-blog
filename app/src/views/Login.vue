@@ -1,15 +1,16 @@
 <template>
   <v-col cols="12" xs="12" sm="7" md="5" lg="4" xl="3">
-    <v-card class="elevation-10 pa-6" style="border-radius:8px;">
+    <v-card class="elevation-10 pa-10" style="border-radius:25px;">
       <v-card-title class="pb-10">
         <v-row justify="center">
-          <h3 class="headline text-uppercase font-weight-bold">Login form</h3>
+          <h3 class="headline text-uppercase font-weight-bold">Login</h3>
         </v-row>
       </v-card-title>
       <v-card-text>
         <v-form ref="form" lazy-validation v-model="valid" @submit.prevent="onSubmit">
           <v-text-field
             outlined
+            rounded
             autofocus
             v-model="username"
             :rules="usernameRules"
@@ -23,6 +24,7 @@
           />
           <v-text-field
             outlined
+            rounded
             v-model="password"
             :rules="passwordRules"
             label="Password"
@@ -42,6 +44,7 @@
             :loading="loading"
             large
             block
+            rounded
             type="submit"
           >
             Login

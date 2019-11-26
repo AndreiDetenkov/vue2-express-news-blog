@@ -41,6 +41,5 @@ export default {
           commit('LOGOUT_ERROR', error.response.data.error)
         })
     }
-  },
-  getters: {}
+  }
 }
