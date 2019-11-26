@@ -7,8 +7,8 @@ const createRouter = () => {
 
   router.get('/list', async (req, res) => {
     try {
-      // const categories = await Category.find().populate({ path: 'parentId', select: 'title' });
-      const categories = await Category.find();
+      const categories = await Category.find().populate({ path: 'parentId', select: 'title' });
+      // const categories = await Category.find();
       if (categories) return res.send(categories);
     } catch (e) {
       return res.status(404).send({ message: 'There are not any categories.', error: e });

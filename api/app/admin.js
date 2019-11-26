@@ -11,14 +11,14 @@ module.exports = createRouter = () => {
 
     try {
       user = await User.findOne({ username });
-      if (!user) return res.status(400).send({ error: 'Incorrect username.' });
+      if (!user) return res.status(400).send({ message: 'Incorrect username.' });
     } catch (e) {
       return res.status(400).send({ message: ' Username Error.', error: e });
     }
 
     try {
       isMatch = await user.comparePassword(password);
-      if (!isMatch) return res.status(400).send({ error: 'Incorrect password' });
+      if (!isMatch) return res.status(400).send({ message: 'Incorrect password' });
     } catch (e) {
       return res.status(400).send({ message: 'Password Error.', error: e });
     }
