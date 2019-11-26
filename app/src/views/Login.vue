@@ -19,7 +19,7 @@
             validate-on-blur
             counter
             required
-            class="mb-4"
+            class="mb-2"
           />
           <v-text-field
             outlined
@@ -33,9 +33,17 @@
             validate-on-blur
             counter
             required
-            class="pb-8"
+            class="pb-6"
           />
-          <v-btn color="accent" class="white--text" :disabled="!valid" large block type="submit">
+          <v-btn
+            color="accent"
+            class="white--text"
+            :disabled="!valid"
+            :loading="loading"
+            large
+            block
+            type="submit"
+          >
             Login
           </v-btn>
         </v-form>
@@ -59,12 +67,18 @@ export default {
     passwordRules: [
       v => !!v || 'Password is required.',
       v => (v && v.length >= 6) || 'Password must be more than 6 characters.'
-    ]
+    ],
+    loading: false
   }),
   methods: {
-    onSubmit() {
+    async onSubmit() {
       if (this.$refs.form.validate()) {
-        this.$store.dispatch('LOGIN', { username: this.username, password: this.password })
+        try {
+          this.loading = true
+          await this.$store.dispatch('LOGIN', { username: this.username, password: this.password })
+          this.loading = false
+          // eslint-disable-next-line no-empty
+        } catch (e) {}
       }
     }
   }

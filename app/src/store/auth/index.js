@@ -15,7 +15,7 @@ export default {
   },
   actions: {
     LOGIN({ commit }, { username, password }) {
-      axios({
+      return axios({
         method: 'POST',
         url: '/admin/login',
         data: { username, password }
