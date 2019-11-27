@@ -10,7 +10,7 @@
     <v-row justify="start">
       <v-col cols="8" class="pl-0">
         <v-card color="#f9f9f9">
-          <CardToolbar @create-category="createHandler" />
+          <CardToolbar title="Categories" btnTitle="Create category" @create-category="createHandler" />
           <v-card-text>
             <DataTable
               :items="categories"

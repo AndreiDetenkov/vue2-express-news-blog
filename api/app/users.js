@@ -40,7 +40,7 @@ const createRouter = () => {
 
   router.get('/list', isAuthorized, async (req, res) => {
     try {
-      const users = await User.find();
+      const users = await User.find({ role: 'user' });
       if (users) return res.send(users);
     } catch (error) {
       return res.status(404).send({ message: 'There are not any users.' });
@@ -84,6 +84,8 @@ const createRouter = () => {
       return res.status(400).send({ message: 'Error. Unable to update the username.' });
     }
   });
+
+  // TODO: add endpoint to response info about user by token
 
   return router;
 };
