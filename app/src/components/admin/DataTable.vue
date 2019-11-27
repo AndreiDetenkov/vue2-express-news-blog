@@ -8,7 +8,7 @@
     style="background: #f9f9f9;"
   >
     <template v-slot:item.editAction="{ item }">
-      <v-chip outlined @click.prevent="editCategoryHandler(item.id)">
+      <v-chip outlined @click.prevent="editCategoryHandler(item)">
         <v-icon left color="success">edit</v-icon>
         Edit
       </v-chip>

@@ -23,8 +23,14 @@
         </v-card>
       </v-col>
       <v-col cols="4" class="pr-0">
-        <transition name="slide" mode="out-in">
-          <CategoryForm v-if="isCategoryForm" :cardTitle="cardTitle" @close-form="closeHandler" />
+        <transition name="slide">
+          <CategoryForm
+            v-show="isCategoryForm"
+            :cardTitle="cardTitle"
+            :isEdit="isEdit"
+            :item="categoryItem"
+            @close-form="closeHandler"
+          />
         </transition>
       </v-col>
     </v-row>
@@ -52,8 +58,10 @@ export default {
     isRemoveDialog: false,
     categoryId: '',
     categoryName: '',
+    categoryItem: {},
     cardTitle: '',
-    isCategoryForm: false
+    isCategoryForm: false,
+    isEdit: false
   }),
   mounted() {
     this.$store.dispatch('GET_CATEGORIES')
@@ -67,9 +75,13 @@ export default {
     }
   },
   methods: {
-    createHandler() {
-      this.isCategoryForm = true
-      this.cardTitle = 'Create category'
+    async createHandler() {
+      try {
+        await this.$store.dispatch('GET_PARENT_CATEGORIES')
+        this.isCategoryForm = true
+        this.cardTitle = 'Create category'
+        // eslint-disable-next-line no-empty
+      } catch (e) {}
     },
     closeHandler() {
       this.isCategoryForm = false
@@ -91,7 +103,16 @@ export default {
         // eslint-disable-next-line no-empty
       } catch (e) {}
     },
-    editCategoryHandler() {}
+    async editCategoryHandler(item) {
+      try {
+        await this.$store.dispatch('GET_PARENT_CATEGORIES')
+        this.categoryItem = item
+        this.cardTitle = 'Edit category'
+        this.isEdit = true
+        this.isCategoryForm = true
+        // eslint-disable-next-line no-empty
+      } catch (e) {}
+    }
   }
 }
 </script>

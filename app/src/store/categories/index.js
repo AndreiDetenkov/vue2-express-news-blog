@@ -17,30 +17,6 @@ export default {
     }
   },
   actions: {
-    REMOVE_CATEGORY({ commit, dispatch }, { id }) {
-      commit('LOADING', true)
-      return axios({
-        method: 'DELETE',
-        url: `/categories/remove/${id}`
-      })
-        .then(response => {
-          dispatch('GET_CATEGORIES')
-          commit('LOADING', false)
-          dispatch('NOTIFICATION', {
-            open: true,
-            color: 'success',
-            text: response.data.message
-          })
-        })
-        .catch(error => {
-          commit('LOADING', false)
-          dispatch('NOTIFICATION', {
-            open: true,
-            color: 'error',
-            text: error.response.data.message
-          })
-        })
-    },
     GET_CATEGORIES({ commit, dispatch }) {
       commit('LOADING', true)
       return axios({
@@ -61,7 +37,7 @@ export default {
         })
     },
     GET_PARENT_CATEGORIES({ commit, dispatch }) {
-      axios({
+      return axios({
         method: 'GET',
         url: '/categories/parent/list'
       })
@@ -97,6 +73,52 @@ export default {
             text: error.response.data.message
           })
         })
+    },
+    REMOVE_CATEGORY({ commit, dispatch }, { id }) {
+      commit('LOADING', true)
+      return axios({
+        method: 'DELETE',
+        url: `/categories/remove/${id}`
+      })
+        .then(response => {
+          dispatch('GET_CATEGORIES')
+          commit('LOADING', false)
+          dispatch('NOTIFICATION', {
+            open: true,
+            color: 'success',
+            text: response.data.message
+          })
+        })
+        .catch(error => {
+          commit('LOADING', false)
+          dispatch('NOTIFICATION', {
+            open: true,
+            color: 'error',
+            text: error.response.data.message
+          })
+        })
+    },
+    EDIT_CATEGORY({ dispatch }, { id, title, parentId }) {
+      return axios({
+        method: 'PUT',
+        url: `/categories/update/${id}`,
+        data: { title, parentId }
+      })
+        .then(response => {
+          dispatch('GET_CATEGORIES')
+          dispatch('NOTIFICATION', {
+            open: true,
+            color: 'success',
+            text: response.data.message
+          })
+        })
+        .catch(error => {
+          dispatch('NOTIFICATION', {
+            open: true,
+            color: 'error',
+            text: error.response.data.message
+          })
+        })
     }
   },
   getters: {
@@ -107,7 +129,8 @@ export default {
           idx: index + 1,
           id: item._id,
           title: item.title,
-          parent: item.parentId ? item.parentId.title : null
+          parent: item.parentId ? item.parentId.title : null,
+          parentId: item.parentId ? item.parentId._id : null
         })
       })
       return array

@@ -8,20 +8,14 @@
     </v-card-title>
     <v-card-text>
       <v-form ref="form" v-model="valid" lazy-validation @submit.prevent="submitHandler">
-        <v-text-field
-          v-model="title"
-          label="Title"
-          placeholder="Enter title of category"
-          outlined
-        />
+        <v-text-field v-model="categoryTitle" label="Title" filled />
         <v-select
           v-model="parentId"
           :items="parentCategories"
           item-text="title"
           item-value="id"
           label="Parent category"
-          placeholder="Leave empty if you create parent category"
-          outlined
+          filled
         />
         <v-btn color="primary" :loading="loading" class="mt-4" type="submit">{{ btnTitle }}</v-btn>
       </v-form>
@@ -36,20 +30,31 @@ export default {
     cardTitle: {
       type: String,
       default: ''
+    },
+    isEdit: {
+      type: Boolean,
+      default: false
+    },
+    item: {
+      type: Object,
+      default: () => ({})
     }
   },
   data: () => ({
     valid: false,
-    title: '',
+    categoryTitle: '',
     parentId: null,
+    id: '',
     loading: false
   }),
-  created() {
-    this.$store.dispatch('GET_PARENT_CATEGORIES')
-  },
-  destroyed() {
-    this.title = ''
-    this.parentId = ''
+  watch: {
+    item(val) {
+      if (val && this.isEdit) {
+        this.categoryTitle = val.title
+        this.parentId = val.parentId
+        this.id = val.id
+      }
+    }
   },
   computed: {
     btnTitle() {
@@ -62,18 +67,25 @@ export default {
   methods: {
     closeHandler() {
       this.$emit('close-form')
+      this.categoryTitle = ''
+      this.parentId = null
+      this.id = ''
     },
-    async submitHandler() {
+    async clickHandler(dispatchTitle) {
       try {
         this.loading = true
-        await this.$store.dispatch('CREATE_CATEGORY', {
-          title: this.title,
+        await this.$store.dispatch(`${dispatchTitle}`, {
+          id: this.id,
+          title: this.categoryTitle,
           parentId: this.parentId
         })
         this.loading = false
-        this.$emit('close-form')
+        this.closeHandler()
         // eslint-disable-next-line no-empty
       } catch (e) {}
+    },
+    async submitHandler() {
+      this.isEdit ? this.clickHandler('EDIT_CATEGORY') : this.clickHandler('CREATE_CATEGORY')
     }
   }
 }
