@@ -3,7 +3,7 @@
     <v-toolbar-title class="headline font-weight-bold">{{ title }}</v-toolbar-title>
     <v-spacer />
     <v-toolbar-items>
-      <v-btn color="primary" text @click.prevent="clickHandler">
+      <v-btn color="primary" text @click.prevent="clickHandler" v-if="btnTitle">
         <v-icon class="mr-2">add_box</v-icon>
         {{ btnTitle }}
       </v-btn>
@@ -22,8 +22,7 @@ export default {
     },
     btnTitle: {
       type: String,
-      default: '',
-      require: true
+      default: ''
     }
   },
   methods: {
@@ -33,7 +32,7 @@ export default {
           this.$emit('create-category')
           break
         case 'Users':
-          this.$emit('create-user')
+          break
       }
     }
   }

@@ -32,6 +32,23 @@ export default {
             text: error.response.data.message
           })
         })
+    },
+    EDIT_USERNAME({ dispatch }, { id, username }) {
+      return axios({
+        method: 'PUT',
+        url: `/users/update-username/${id}`,
+        data: { username }
+      })
+        .then(() => {
+          dispatch('GET_USERS')
+        })
+        .catch(error => {
+          dispatch('NOTIFICATION', {
+            open: true,
+            color: 'error',
+            text: error.response.data.message
+          })
+        })
     }
   },
   getters: {
