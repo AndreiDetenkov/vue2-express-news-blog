@@ -1,6 +1,7 @@
 <template>
   <v-content>
     <AppBar />
+    <Notification />
     <v-container>
       <p>news</p>
     </v-container>
@@ -8,9 +9,11 @@
 </template>
 
 <script>
-import AppBar from '../components/news/AppBar'
 export default {
   name: 'Main',
-  components: { AppBar }
+  components: {
+    AppBar: () => import('@/components/news/AppBar'),
+    Notification: () => import('@/components/ui/Notification')
+  }
 }
 </script>

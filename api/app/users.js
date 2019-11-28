@@ -86,7 +86,16 @@ const createRouter = () => {
     }
   });
 
-  // TODO: add endpoint to response info about user by token
+  router.get('/get-info', isAuthorized, async (req, res) => {
+    const token = req.user.token;
+    try {
+    	const result = await User.find({ token })
+      if (result) return res.status(200).send(result)
+      else return res.status(404).send({ message: 'User not found.' })
+    } catch(e) {
+      return res.status(400).send({ message: 'Error. Unable to get user info.', error: e });
+    }
+  });
 
   return router;
 };
