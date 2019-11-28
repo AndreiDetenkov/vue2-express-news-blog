@@ -17,16 +17,24 @@ export default {
   props: {
     title: {
       type: String,
-      default: ''
+      default: '',
+      require: true
     },
     btnTitle: {
       type: String,
-      default: ''
+      default: '',
+      require: true
     }
   },
   methods: {
     clickHandler() {
-      this.$emit('create-category')
+      switch (this.title) {
+        case 'Categories':
+          this.$emit('create-category')
+          break
+        case 'Users':
+          this.$emit('create-user')
+      }
     }
   }
 }
