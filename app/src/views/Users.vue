@@ -2,6 +2,7 @@
   <v-container fluid class="px-8">
     <Notification />
     <UserDialog
+      ref="userDialog"
       :dialog="dialog.isShow"
       :dialogKey="dialog.key"
       :title="dialog.title"
@@ -9,6 +10,7 @@
       :loading="dialog.loading"
       @close-user-dialog="dialog.isShow = false"
       @edit-username="editUsernameHandler"
+      @edit-password="editPasswordHandler"
     />
     <v-row justify="start">
       <v-col cols="12" class="pl-0">
@@ -77,27 +79,33 @@ export default {
     openRemoveUserDialog() {
       console.log('remove: ')
     },
-    openUsernameDialogHandler(item) {
-      this.dialog.key = this.enum.EDIT_USERNAME
-      this.dialog.title = this.enum.EDIT_USERNAME_TITLE
-      this.dialog.item = item
-      this.dialog.isShow = true
-    },
-    async editUsernameHandler(id, username) {
+    async editHandler(actionName, payload) {
       try {
         this.dialog.loading = true
-        await this.$store.dispatch('EDIT_USERNAME', { id, username })
+        await this.$store.dispatch(`${actionName}`, payload)
         this.dialog.loading = false
-        this.dialog.isShow = false
+        this.$refs.userDialog.closeDialogHandler()
         // eslint-disable-next-line no-empty
       } catch (e) {}
     },
-    openPasswordDialogHandler() {
-      this.dialog.key = this.enum.EDIT_PASSWORD
-      this.dialog.title = this.enum.EDIT_PASSWORD_TITLE
+    openDialogHandler(key, title, item) {
+      this.dialog.key = key
+      this.dialog.title = title
+      this.dialog.item = item
       this.dialog.isShow = true
     },
-    editPasswordHandler() {}
+    openUsernameDialogHandler(item) {
+      this.openDialogHandler(this.enum.EDIT_USERNAME, this.enum.EDIT_USERNAME_TITLE, item)
+    },
+    async editUsernameHandler(id, username) {
+      await this.editHandler('EDIT_USERNAME', { id, username })
+    },
+    openPasswordDialogHandler(item) {
+      this.openDialogHandler(this.enum.EDIT_PASSWORD, this.enum.EDIT_PASSWORD_TITLE, item)
+    },
+    async editPasswordHandler(id, password) {
+      await this.editHandler('EDIT_PASSWORD', { id, password })
+    }
   }
 }
 </script>

@@ -72,7 +72,7 @@ const createRouter = () => {
     }
   });
 
-  router.put('/update-pass/:id', isAuthorized, async (req, res) => {
+  router.put('/update-password/:id', isAuthorized, async (req, res) => {
     const id = req.params.id;
     if (!req.body.password) return res.status(400).send({ message: 'Password is required' });
 
@@ -82,7 +82,7 @@ const createRouter = () => {
       const query = await User.findByIdAndUpdate(id, { password: newPass });
       if (query) return res.send({ message: `Password updated successfully.` });
     } catch (e) {
-      return res.status(400).send({ message: 'Error. Unable to update the username.' });
+      return res.status(400).send({ message: 'Error. Unable to update the password.' });
     }
   });
 

@@ -104,7 +104,7 @@ export default {
             this.$emit('edit-username', this.id, this.username)
             break
           case this.enum.EDIT_PASSWORD:
-            this.$emit('edit-password', this.password)
+            this.$emit('edit-password', this.id, this.password)
             break
         }
       }

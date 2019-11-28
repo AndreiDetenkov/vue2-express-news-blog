@@ -49,6 +49,27 @@ export default {
             text: error.response.data.message
           })
         })
+    },
+    EDIT_PASSWORD({ dispatch }, { id, password }) {
+      return axios({
+        method: 'PUT',
+        url: `/users/update-password/${id}`,
+        data: { password }
+      })
+        .then(response => {
+          dispatch('NOTIFICATION', {
+            open: true,
+            color: 'success',
+            text: response.data.message
+          })
+        })
+        .catch(error => {
+          dispatch('NOTIFICATION', {
+            open: true,
+            color: 'error',
+            text: error.response.data.message
+          })
+        })
     }
   },
   getters: {

@@ -20,7 +20,7 @@
       </v-chip>
     </template>
     <template v-slot:item.editPasswordAction="{ item }">
-      <v-chip outlined @click.prevent="editPasswordHandler(item._id)">
+      <v-chip outlined @click.prevent="editPasswordHandler(item)">
         <v-icon left color="warning">edit</v-icon>
         Edit password
       </v-chip>
@@ -67,8 +67,8 @@ export default {
     editUsernameHandler(item) {
       this.$emit('edit-username', item)
     },
-    editPasswordHandler(id) {
-      this.$emit('edit-password', id)
+    editPasswordHandler(item) {
+      this.$emit('edit-password', item)
     },
     openRemoveUserDialogHandler(id, username) {
       this.$emit('open-remove-user-dialog', id, username)
