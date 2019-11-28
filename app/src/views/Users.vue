@@ -22,7 +22,7 @@
       @remove-user="removeUserHandler"
     />
     <v-row justify="start">
-      <v-col cols="12" class="pl-0">
+      <v-col cols="12">
         <v-card color="#f9f9f9">
           <CardToolbar title="Users" />
           <v-card-text>
@@ -60,9 +60,9 @@ export default {
       { text: 'N', align: 'left', sortable: false, value: 'idx', divider: true },
       { text: 'Username', align: 'left', sortable: true, value: 'username', divider: true },
       { text: 'User role', align: 'left', sortable: true, value: 'role', divider: true },
-      { text: 'Action', align: 'center', sortable: false, value: 'editUsernameAction', width: 150 },
-      { text: 'Action', align: 'center', sortable: false, value: 'editPasswordAction', width: 150 },
-      { text: 'Action', align: 'center', sortable: false, value: 'removeUserAction', width: 100 }
+      { text: 'Action', align: 'center', sortable: false, value: 'editUsernameAction' },
+      { text: 'Action', align: 'center', sortable: false, value: 'editPasswordAction' },
+      { text: 'Action', align: 'center', sortable: false, value: 'removeUserAction' }
     ],
     enum: {
       EDIT_USERNAME: 'edit_username',

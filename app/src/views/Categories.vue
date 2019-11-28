@@ -9,8 +9,8 @@
       @close-dialog="closeDialogHandler"
       @remove-category="removeCategoryHandler"
     />
-    <v-row justify="start">
-      <v-col cols="8" class="pl-0">
+    <v-row justify="center">
+      <v-col sm="12" md="8">
         <v-card color="#f9f9f9">
           <CardToolbar title="Categories" btnTitle="Create category" @create-category="createHandler" />
           <v-card-text>
@@ -24,7 +24,7 @@
           </v-card-text>
         </v-card>
       </v-col>
-      <v-col cols="4" class="pr-0">
+      <v-col sm="12" md="4">
         <transition name="slide">
           <CategoryForm
             v-show="isCategoryForm"
@@ -54,8 +54,8 @@ export default {
       { text: 'N', align: 'left', sortable: false, value: 'idx', divider: true },
       { text: 'Title', align: 'left', sortable: true, value: 'title', divider: true },
       { text: 'ParentCategory', align: 'left', sortable: true, value: 'parent', divider: true },
-      { text: 'Action', align: 'center', sortable: false, value: 'editAction', width: 80 },
-      { text: 'Action', align: 'center', sortable: false, value: 'removeAction', width: 100 }
+      { text: 'Action', align: 'center', sortable: false, value: 'editAction' },
+      { text: 'Action', align: 'center', sortable: false, value: 'removeAction' }
     ],
     enum: { REMOVE_CATEGORY: 'remove-category' },
     isRemoveDialog: false,
