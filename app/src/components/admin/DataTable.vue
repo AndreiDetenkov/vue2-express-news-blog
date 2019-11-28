@@ -32,7 +32,7 @@
       </v-chip>
     </template>
     <template v-slot:item.removeUserAction="{ item }">
-      <v-chip outlined @click="openRemoveUserDialogHandler(item.id, item.username)">
+      <v-chip outlined @click="openRemoveUserDialogHandler(item._id, item.username)">
         <v-icon left color="error">close</v-icon>
         Remove user
       </v-chip>

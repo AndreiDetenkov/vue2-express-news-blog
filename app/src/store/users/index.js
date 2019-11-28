@@ -70,6 +70,27 @@ export default {
             text: error.response.data.message
           })
         })
+    },
+    REMOVE_USER({ dispatch }, { id }) {
+      return axios({
+        method: 'DELETE',
+        url: `/users/remove/${id}`
+      })
+        .then(response => {
+          dispatch('GET_USERS')
+          dispatch('NOTIFICATION', {
+            open: true,
+            color: 'success',
+            text: response.data.message
+          })
+        })
+        .catch(error => {
+          dispatch('NOTIFICATION', {
+            open: true,
+            color: 'error',
+            text: error.response.data.message
+          })
+        })
     }
   },
   getters: {

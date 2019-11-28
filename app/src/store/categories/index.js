@@ -74,15 +74,13 @@ export default {
           })
         })
     },
-    REMOVE_CATEGORY({ commit, dispatch }, { id }) {
-      commit('LOADING', true)
+    REMOVE_CATEGORY({ dispatch }, { id }) {
       return axios({
         method: 'DELETE',
         url: `/categories/remove/${id}`
       })
         .then(response => {
           dispatch('GET_CATEGORIES')
-          commit('LOADING', false)
           dispatch('NOTIFICATION', {
             open: true,
             color: 'success',
@@ -90,7 +88,6 @@ export default {
           })
         })
         .catch(error => {
-          commit('LOADING', false)
           dispatch('NOTIFICATION', {
             open: true,
             color: 'error',

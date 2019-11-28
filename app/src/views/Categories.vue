@@ -4,6 +4,8 @@
     <RemoveDialog
       :dialog="isRemoveDialog"
       :name="categoryName"
+      :dialogKey="this.enum.REMOVE_CATEGORY"
+      :loading="removeLoading"
       @close-dialog="closeDialogHandler"
       @remove-category="removeCategoryHandler"
     />
@@ -55,13 +57,15 @@ export default {
       { text: 'Action', align: 'center', sortable: false, value: 'editAction', width: 80 },
       { text: 'Action', align: 'center', sortable: false, value: 'removeAction', width: 100 }
     ],
+    enum: { REMOVE_CATEGORY: 'remove-category' },
     isRemoveDialog: false,
     categoryId: '',
     categoryName: '',
     categoryItem: {},
     cardTitle: '',
     isCategoryForm: false,
-    isEdit: false
+    isEdit: false,
+    removeLoading: false
   }),
   mounted() {
     this.$store.dispatch('GET_CATEGORIES')
@@ -96,7 +100,9 @@ export default {
     },
     async removeCategoryHandler() {
       try {
+        this.removeLoading = true
         await this.$store.dispatch('REMOVE_CATEGORY', { id: this.categoryId })
+        this.removeLoading = false
         this.isRemoveDialog = false
         this.categoryId = ''
         this.categoryName = ''

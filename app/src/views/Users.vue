@@ -12,6 +12,15 @@
       @edit-username="editUsernameHandler"
       @edit-password="editPasswordHandler"
     />
+    <RemoveDialog
+      ref="removeDialog"
+      :dialog="removeDialog.isShow"
+      :name="removeDialog.username"
+      :dialogKey="this.enum.REMOVE_USER"
+      :loading="removeDialog.loading"
+      @close-dialog="removeDialog.isShow = false"
+      @remove-user="removeUserHandler"
+    />
     <v-row justify="start">
       <v-col cols="12" class="pl-0">
         <v-card color="#f9f9f9">
@@ -20,7 +29,7 @@
             <DataTable
               :items="users"
               :headers="headers"
-              :loading="loading"
+              :loading="getUsersLoading"
               @open-remove-user-dialog="openRemoveUserDialog"
               @edit-username="openUsernameDialogHandler"
               @edit-password="openPasswordDialogHandler"
@@ -33,13 +42,15 @@
 </template>
 
 <script>
+// TODO: add ability to add user for user with role admin only
 export default {
   name: 'Users',
   components: {
     Notification: () => import('@/components/ui/Notification'),
     DataTable: () => import('@/components/admin/DataTable'),
     UserDialog: () => import('@/components/admin/UserDialog'),
-    CardToolbar: () => import('@/components/admin/CardToolbar')
+    CardToolbar: () => import('@/components/admin/CardToolbar'),
+    RemoveDialog: () => import('@/components/admin/RemoveDialog')
   },
   mounted() {
     this.$store.dispatch('GET_USERS')
@@ -57,7 +68,8 @@ export default {
       EDIT_USERNAME: 'edit_username',
       EDIT_PASSWORD: 'edit_password',
       EDIT_USERNAME_TITLE: 'Edit Username',
-      EDIT_PASSWORD_TITLE: 'Edit Password'
+      EDIT_PASSWORD_TITLE: 'Edit Password',
+      REMOVE_USER: 'remove-user'
     },
     dialog: {
       isShow: false,
@@ -65,19 +77,27 @@ export default {
       title: '',
       item: {},
       loading: false
+    },
+    removeDialog: {
+      isShow: false,
+      id: '',
+      username: '',
+      loading: false
     }
   }),
   computed: {
     users() {
       return this.$store.getters.viewUsers
     },
-    loading() {
+    getUsersLoading() {
       return this.$store.state.users.loading
     }
   },
   methods: {
-    openRemoveUserDialog() {
-      console.log('remove: ')
+    openRemoveUserDialog(id, username) {
+      this.removeDialog.id = id
+      this.removeDialog.username = username
+      this.removeDialog.isShow = true
     },
     async editHandler(actionName, payload) {
       try {
@@ -105,6 +125,15 @@ export default {
     },
     async editPasswordHandler(id, password) {
       await this.editHandler('EDIT_PASSWORD', { id, password })
+    },
+    async removeUserHandler() {
+      try {
+        this.removeDialog.loading = true
+        await this.$store.dispatch('REMOVE_USER', { id: this.removeDialog.id })
+        this.removeDialog.loading = true
+        this.removeDialog.isShow = false
+        // eslint-disable-next-line no-empty
+      } catch (e) {}
     }
   }
 }
