@@ -34,5 +34,13 @@ export default {
         })
     }
   },
-  getters: {}
+  getters: {
+    viewUsers: state => {
+      const array = []
+      state.users.map((item, index) => {
+        array.push({ idx: index + 1, ...item })
+      })
+      return array
+    }
+  }
 }

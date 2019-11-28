@@ -39,8 +39,9 @@ const createRouter = () => {
   });
 
   router.get('/list', isAuthorized, async (req, res) => {
+    // TODO: only admin should see this list
     try {
-      const users = await User.find({ role: 'user' });
+      const users = await User.find();
       if (users) return res.send(users);
     } catch (error) {
       return res.status(404).send({ message: 'There are not any users.' });
