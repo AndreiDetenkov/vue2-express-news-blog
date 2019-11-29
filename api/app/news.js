@@ -64,6 +64,7 @@ const createRouter = () => {
   });
 
   router.delete('/remove/:id', isAuthorized, async (req, res) => {
+    const id = req.params.id;
     try {
       const result = await News.findByIdAndRemove(id);
       if (result) {

@@ -46,7 +46,7 @@ export default {
     }
   },
   data: () => ({
-    enum: { REMOVE_CATEGORY: 'remove-category', REMOVE_USER: 'remove-user' }
+    enum: { REMOVE_CATEGORY: 'remove-category', REMOVE_USER: 'remove-user', REMOVE_NEWS: 'remove-news' }
   }),
   methods: {
     closeDialogHandler() {
@@ -60,6 +60,8 @@ export default {
         case this.enum.REMOVE_USER:
           this.$emit('remove-user')
           break
+        case this.enum.REMOVE_NEWS:
+          this.$emit('remove-news')
       }
     }
   }

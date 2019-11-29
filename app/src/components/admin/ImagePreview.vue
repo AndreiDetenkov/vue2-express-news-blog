@@ -1,11 +1,11 @@
 <template>
   <v-row justify="center">
-    <v-dialog v-model="dialog" persistent max-width="500">
+    <v-dialog v-model="dialog" persistent max-width="600">
       <v-card>
-        <v-btn icon dark @click.stop="closeHandler" class="close-btn">
-          <v-icon lagre>close</v-icon>
+        <v-btn icon @click.stop="closeHandler" class="close-btn">
+          <v-icon color="grey lighten-1" lagre>close</v-icon>
         </v-btn>
-        <v-img :src="`${url}uploads/${image}`" max-width="500" contain />
+        <v-img :src="`${url}uploads/${image}`" contain />
       </v-card>
     </v-dialog>
   </v-row>
@@ -38,13 +38,13 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.v-card {
+.v-dialog {
   position: relative;
   .close-btn {
     position: absolute;
     top: 0;
     right: 0;
-    z-index: 10;
+    z-index: 100;
   }
 }
 </style>

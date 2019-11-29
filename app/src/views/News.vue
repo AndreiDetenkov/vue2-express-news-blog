@@ -16,6 +16,15 @@
       :image="preview.image"
       @close-image-preview-dialog="preview.isShow = false"
     />
+    <RemoveDialog
+      ref="removeDialog"
+      :dialog="removeDialog.isShow"
+      :name="removeDialog.news"
+      :dialogKey="this.enum.REMOVE_NEWS"
+      :loading="removeDialog.loading"
+      @close-dialog="removeDialog.isShow = false"
+      @remove-news="removeNewsHandler"
+    />
     <v-row justify="center">
       <v-col cols="12">
         <v-card color="#f9f9f9">
@@ -26,6 +35,7 @@
               :headers="headers"
               :loading="getNewsLoading"
               @open-image-preview-dialog="openPreviewHandler"
+              @open-remove-news-dialog="openRemoveNewsDialog"
             />
           </v-card-text>
         </v-card>
@@ -41,7 +51,7 @@ export default {
     Notification: () => import('@/components/ui/Notification'),
     DataTable: () => import('@/components/admin/DataTable'),
     CardToolbar: () => import('@/components/admin/CardToolbar'),
-    // RemoveDialog: () => import('@/components/admin/RemoveDialog'),
+    RemoveDialog: () => import('@/components/admin/RemoveDialog'),
     NewsDialog: () => import('@/components/admin/NewsDialog'),
     ImagePreview: () => import('@/components/admin/ImagePreview')
   },
@@ -59,7 +69,8 @@ export default {
       ADD_NEWS: 'add_news',
       EDIT_NEWS: 'edit_news',
       ADD_NEWS_TITLE: 'Add news',
-      EDIT_NEWS_TITLE: 'Edit news'
+      EDIT_NEWS_TITLE: 'Edit news',
+      REMOVE_NEWS: 'remove-news'
     },
     addDialog: {
       isShow: false,
@@ -70,6 +81,12 @@ export default {
     preview: {
       isShow: false,
       image: ''
+    },
+    removeDialog: {
+      isShow: false,
+      id: '',
+      news: '',
+      loading: false
     }
   }),
   mounted() {
@@ -98,16 +115,29 @@ export default {
       this.preview.isShow = true
     },
     async addNewsHandler(formData) {
-      // for (let [name, value] of formData) {
-      //   console.log(`${name} = ${value}`)
-      // }
       try {
         this.addDialog.loading = true
         await this.$store.dispatch('CREATE_NEWS', formData)
         this.addDialog.loading = false
         this.$refs.newsDialog.closeDialogHandler()
-        // eslint-disable-next-line no-empty
-      } catch (e) {}
+      } catch (e) {
+        this.addDialog.loading = false
+      }
+    },
+    async removeNewsHandler() {
+      try {
+        this.removeDialog.loading = true
+        await this.$store.dispatch('REMOVE_NEWS', { id: this.removeDialog.id })
+        this.removeDialog.loading = false
+        this.$refs.removeDialog.closeDialogHandler()
+      } catch (e) {
+        this.removeDialog.loading = false
+      }
+    },
+    openRemoveNewsDialog(id, title) {
+      this.removeDialog.id = id
+      this.removeDialog.news = title
+      this.removeDialog.isShow = true
     }
   }
 }

@@ -55,6 +55,28 @@ export default {
             text: error.response.data.message
           })
         })
+    },
+    REMOVE_NEWS({ dispatch }, { id }) {
+      console.log(id)
+      return axios({
+        method: 'DELETE',
+        url: `/news/remove/${id}`
+      })
+        .then(response => {
+          dispatch('GET_NEWS')
+          dispatch('NOTIFICATION', {
+            open: true,
+            color: 'success',
+            text: response.data.message
+          })
+        })
+        .catch(error => {
+          dispatch('NOTIFICATION', {
+            open: true,
+            color: 'error',
+            text: error.response.data.message
+          })
+        })
     }
   },
   getters: {

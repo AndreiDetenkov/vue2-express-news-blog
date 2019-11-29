@@ -44,7 +44,7 @@
       </v-chip>
     </template>
     <template v-slot:item.removeNewsAction="{ item }">
-      <v-chip outlined @click="openRemoveNewsDialogHandler(item._id, item.username)">
+      <v-chip outlined @click.prevent="openRemoveNewsDialogHandler(item.id, item.title)">
         <v-icon left color="error">close</v-icon>
         Remove
       </v-chip>
@@ -91,8 +91,10 @@ export default {
     displayImage(path) {
       this.$emit('open-image-preview-dialog', path)
     },
-    editNewsHandler() {},
-    openRemoveNewsDialogHandler() {}
+    openRemoveNewsDialogHandler(id, title) {
+      this.$emit('open-remove-news-dialog', id, title)
+    },
+    editNewsHandler() {}
   }
 }
 </script>
