@@ -4,6 +4,7 @@ import router from './router'
 import store from './store'
 import vuetify from './plugins/vuetify'
 import interceptors from './config/axios'
+import './plugins/moment'
 
 Vue.config.productionTip = false
 interceptors()

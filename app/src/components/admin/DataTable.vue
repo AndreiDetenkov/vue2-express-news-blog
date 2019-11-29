@@ -37,6 +37,21 @@
         Remove user
       </v-chip>
     </template>
+    <template v-slot:item.editNewsAction="{ item }">
+      <v-chip outlined @click.prevent="editNewsHandler(item)">
+        <v-icon left color="success">edit</v-icon>
+        Edit
+      </v-chip>
+    </template>
+    <template v-slot:item.removeNewsAction="{ item }">
+      <v-chip outlined @click="openRemoveNewsDialogHandler(item._id, item.username)">
+        <v-icon left color="error">close</v-icon>
+        Remove
+      </v-chip>
+    </template>
+    <template v-slot:item.imageView="{ item }">
+      <v-btn icon @click="displayImage(item.image)"><v-icon>image</v-icon></v-btn>
+    </template>
   </v-data-table>
 </template>
 
@@ -72,7 +87,12 @@ export default {
     },
     openRemoveUserDialogHandler(id, username) {
       this.$emit('open-remove-user-dialog', id, username)
-    }
+    },
+    displayImage(path) {
+      console.log('path: ', path)
+    },
+    editNewsHandler() {},
+    openRemoveNewsDialogHandler() {}
   }
 }
 </script>

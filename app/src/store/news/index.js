@@ -1,4 +1,5 @@
 import axios from 'axios'
+import moment from 'moment'
 
 export default {
   state: {
@@ -28,9 +29,24 @@ export default {
     }
   },
   getters: {
-    getNews: state => {
-      console.log('news: ', state.news)
-      return state.news
+    viewNews: state => {
+      const n = []
+      state.news.map((item, index) => {
+        n.push({
+          idx: index + 1,
+          id: item._id,
+          title: item.title,
+          description: item.description,
+          date: moment(item.date).format('LL'),
+          image: item.imagePath,
+          category: item.categoryId ? item.categoryId.title : null,
+          categoryId: item.categoryId ? item.categoryId._id : null,
+          username: item.userId ? item.userId.username : null,
+          userId: item.userId ? item.userId._id : null
+        })
+      })
+      console.log('n: ', n)
+      return n
     }
   }
 }

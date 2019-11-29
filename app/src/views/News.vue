@@ -13,7 +13,7 @@
         <v-card color="#f9f9f9">
           <CardToolbar title="News" btnTitle="Add news" @add-news="addNewsHandler" />
           <v-card-text>
-            <DataTable :items="news" :headers="[]" />
+            <DataTable :items="news" :headers="headers" />
           </v-card-text>
         </v-card>
       </v-col>
@@ -32,6 +32,15 @@ export default {
     NewsDialog: () => import('@/components/admin/NewsDialog')
   },
   data: () => ({
+    headers: [
+      { text: '№', align: 'left', sortable: false, value: 'idx', divider: true },
+      { text: 'Title', align: 'left', sortable: true, value: 'title', divider: true },
+      { text: 'Category', align: 'left', sortable: true, value: 'category', divider: true },
+      { text: 'Image', align: 'left', sortable: false, value: 'imageView', divider: true },
+      { text: 'Date', align: 'left', sortable: false, value: 'date', divider: true },
+      { text: 'Action', align: 'center', sortable: false, value: 'editNewsAction' },
+      { text: 'Action', align: 'center', sortable: false, value: 'removeNewsAction' }
+    ],
     enum: {
       ADD_NEWS: 'add_news',
       EDIT_NEWS: 'edit_news',
@@ -49,7 +58,7 @@ export default {
   },
   computed: {
     news() {
-      return this.$store.getters.getNews
+      return this.$store.getters.viewNews
     },
     categories() {
       return this.$store.getters.viewCategories

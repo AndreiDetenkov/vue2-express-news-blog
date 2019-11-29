@@ -16,14 +16,14 @@
               item-text="title"
               item-value="id"
               label="Category"
-              filled
+              outlined
             />
-            <v-text-field filled validate-on-blur label="Title" v-model="title" />
-            <v-textarea filled validate-on-blur label="Description" v-model="description" />
+            <v-text-field outlined validate-on-blur label="Title" v-model="title" />
+            <v-textarea outlined validate-on-blur label="Description" v-model="description" />
             <v-file-input
               v-model="files"
               label="Image"
-              filled
+              outlined
               prepend-icon="mdi-camera"
               accept="image/jpg, image/jpeg"
             />
@@ -62,8 +62,8 @@ export default {
       require: true
     },
     categories: {
-      type: Object,
-      default: () => {}
+      type: Array,
+      default: () => []
     }
   },
   data: () => ({
@@ -81,5 +81,3 @@ export default {
   }
 }
 </script>
-
-<style scoped></style>
