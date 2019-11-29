@@ -8,12 +8,22 @@
       :categories="categories"
       @close-add-dialog="addDialog.isShow = false"
     />
+    <ImagePreview
+      :dialog="preview.isShow"
+      :image="preview.image"
+      @close-image-preview-dialog="preview.isShow = false"
+    />
     <v-row justify="center">
       <v-col cols="12">
         <v-card color="#f9f9f9">
           <CardToolbar title="News" btnTitle="Add news" @add-news="addNewsHandler" />
           <v-card-text>
-            <DataTable :items="news" :headers="headers" />
+            <DataTable
+              :items="news"
+              :headers="headers"
+              :loading="getNewsLoading"
+              @open-image-preview-dialog="openPreviewHandler"
+            />
           </v-card-text>
         </v-card>
       </v-col>
@@ -29,7 +39,8 @@ export default {
     DataTable: () => import('@/components/admin/DataTable'),
     CardToolbar: () => import('@/components/admin/CardToolbar'),
     // RemoveDialog: () => import('@/components/admin/RemoveDialog'),
-    NewsDialog: () => import('@/components/admin/NewsDialog')
+    NewsDialog: () => import('@/components/admin/NewsDialog'),
+    ImagePreview: () => import('@/components/admin/ImagePreview')
   },
   data: () => ({
     headers: [
@@ -51,6 +62,10 @@ export default {
       isShow: false,
       title: '',
       key: ''
+    },
+    preview: {
+      isShow: false,
+      image: ''
     }
   }),
   mounted() {
@@ -62,6 +77,9 @@ export default {
     },
     categories() {
       return this.$store.getters.viewCategories
+    },
+    getNewsLoading() {
+      return this.$store.getters.getNewsLoading
     }
   },
   methods: {
@@ -70,6 +88,10 @@ export default {
       this.addDialog.title = this.enum.ADD_NEWS_TITLE
       this.addDialog.key = this.enum.ADD_NEWS_TITLE
       this.addDialog.isShow = true
+    },
+    openPreviewHandler(image) {
+      this.preview.image = image
+      this.preview.isShow = true
     }
   }
 }

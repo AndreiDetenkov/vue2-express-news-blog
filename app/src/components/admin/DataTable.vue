@@ -89,7 +89,7 @@ export default {
       this.$emit('open-remove-user-dialog', id, username)
     },
     displayImage(path) {
-      console.log('path: ', path)
+      this.$emit('open-image-preview-dialog', path)
     },
     editNewsHandler() {},
     openRemoveNewsDialogHandler() {}

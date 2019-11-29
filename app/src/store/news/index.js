@@ -3,23 +3,30 @@ import moment from 'moment'
 
 export default {
   state: {
-    news: []
+    news: [],
+    loading: false
   },
   mutations: {
     GET_NEWS_SUCCESS(state, payload) {
       state.news = payload
+    },
+    LOADING(state, payload) {
+      state.loading = payload
     }
   },
   actions: {
     GET_NEWS({ commit, dispatch }) {
+      commit('LOADING', true)
       return axios({
         method: 'GET',
         url: '/news/list'
       })
         .then(response => {
           commit('GET_NEWS_SUCCESS', response.data)
+          commit('LOADING', false)
         })
         .catch(error => {
+          commit('LOADING', false)
           dispatch('NOTIFICATION', {
             open: true,
             color: 'error',
@@ -38,7 +45,7 @@ export default {
           title: item.title,
           description: item.description,
           date: moment(item.date).format('LL'),
-          image: item.imagePath,
+          image: item.imageName,
           category: item.categoryId ? item.categoryId.title : null,
           categoryId: item.categoryId ? item.categoryId._id : null,
           username: item.userId ? item.userId.username : null,
@@ -47,6 +54,7 @@ export default {
       })
       console.log('n: ', n)
       return n
-    }
+    },
+    getNewsLoading: state => state.loading
   }
 }
