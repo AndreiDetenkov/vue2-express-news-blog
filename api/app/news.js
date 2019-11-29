@@ -46,6 +46,8 @@ const createRouter = () => {
     }
 
     const data = req.body;
+    data.userId = req.user._id
+
     if (!req.file) return res.status(400).send({ message: `Image is required` });
     else {
       data.imagePath = req.file.path;

@@ -31,7 +31,8 @@ export default {
         case 'Categories':
           this.$emit('create-category')
           break
-        case 'Users':
+        case 'News':
+          this.$emit('create-news')
           break
       }
     }

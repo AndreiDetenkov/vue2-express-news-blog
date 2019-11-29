@@ -21,7 +21,7 @@
       @close-dialog="removeDialog.isShow = false"
       @remove-user="removeUserHandler"
     />
-    <v-row justify="start">
+    <v-row justify="center">
       <v-col cols="12">
         <v-card color="#f9f9f9">
           <CardToolbar title="Users" />

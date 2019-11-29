@@ -4,6 +4,7 @@ import auth from './auth'
 import notification from './notification'
 import categories from './categories'
 import users from './users'
+import news from './news'
 
 Vue.use(Vuex)
 
@@ -12,6 +13,7 @@ export default new Vuex.Store({
     auth,
     notification,
     categories,
-    users
+    users,
+    news
   }
 })
