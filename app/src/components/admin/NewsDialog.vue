@@ -3,11 +3,21 @@
     <v-dialog v-model="dialog" persistent max-width="500">
       <v-card class="pa-2">
         <v-card-title class="pb-10">
-          <span class="headline font-weight-bold">{{ dialogTitle }}</span>
+          <v-row justify="space-between" no-gutters>
+            <span class="headline font-weight-bold">{{ dialogTitle }}</span>
+            <v-btn icon @click.stop="closeDialogHandler"><v-icon color="black">close</v-icon></v-btn>
+          </v-row>
         </v-card-title>
         <v-card-text class="text-center">
           <v-form ref="form" lazy-validation v-model="valid" @submit.prevent="onSubmitHandler">
-            <v-select v-model="categoryId" :items="[]" item-text="title" item-value="id" label="Category" filled />
+            <v-select
+              v-model="categoryId"
+              :items="categories"
+              item-text="title"
+              item-value="id"
+              label="Category"
+              filled
+            />
             <v-text-field filled validate-on-blur label="Title" v-model="title" />
             <v-textarea filled validate-on-blur label="Description" v-model="description" />
             <v-file-input
@@ -50,6 +60,10 @@ export default {
       type: String,
       default: '',
       require: true
+    },
+    categories: {
+      type: Object,
+      default: () => {}
     }
   },
   data: () => ({

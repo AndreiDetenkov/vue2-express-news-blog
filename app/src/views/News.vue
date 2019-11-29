@@ -5,6 +5,7 @@
       :dialog="addDialog.isShow"
       :dialogKey="addDialog.key"
       :dialogTitle="addDialog.title"
+      :categories="categories"
       @close-add-dialog="addDialog.isShow = false"
     />
     <v-row justify="center">
@@ -49,10 +50,14 @@ export default {
   computed: {
     news() {
       return this.$store.getters.getNews
+    },
+    categories() {
+      return this.$store.getters.viewCategories
     }
   },
   methods: {
-    addNewsHandler() {
+    async addNewsHandler() {
+      await this.$store.dispatch('GET_CATEGORIES')
       this.addDialog.title = this.enum.ADD_NEWS_TITLE
       this.addDialog.key = this.enum.ADD_NEWS_TITLE
       this.addDialog.isShow = true
@@ -60,5 +65,3 @@ export default {
   }
 }
 </script>
-
-<style scoped></style>
