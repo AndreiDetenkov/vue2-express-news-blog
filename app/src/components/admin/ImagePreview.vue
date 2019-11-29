@@ -5,7 +5,7 @@
         <v-btn icon dark @click.stop="closeHandler" class="close-btn">
           <v-icon lagre>close</v-icon>
         </v-btn>
-        <v-img :src="`${url}uploads/${image}`" max-width="500" aspect-ratio="1.778" />
+        <v-img :src="`${url}uploads/${image}`" max-width="500" contain />
       </v-card>
     </v-dialog>
   </v-row>
