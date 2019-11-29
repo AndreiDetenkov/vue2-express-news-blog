@@ -1,6 +1,12 @@
 <template>
   <v-container fluid class="px-8">
     <Notification />
+    <NewsDialog
+      :dialog="addDialog.isShow"
+      :dialogKey="addDialog.key"
+      :dialogTitle="addDialog.title"
+      @close-add-dialog="addDialog.isShow = false"
+    />
     <v-row justify="center">
       <v-col cols="12">
         <v-card color="#f9f9f9">
@@ -20,9 +26,23 @@ export default {
   components: {
     Notification: () => import('@/components/ui/Notification'),
     DataTable: () => import('@/components/admin/DataTable'),
-    CardToolbar: () => import('@/components/admin/CardToolbar')
-    // RemoveDialog: () => import('@/components/admin/RemoveDialog')
+    CardToolbar: () => import('@/components/admin/CardToolbar'),
+    // RemoveDialog: () => import('@/components/admin/RemoveDialog'),
+    NewsDialog: () => import('@/components/admin/NewsDialog')
   },
+  data: () => ({
+    enum: {
+      ADD_NEWS: 'add_news',
+      EDIT_NEWS: 'edit_news',
+      ADD_NEWS_TITLE: 'Add news',
+      EDIT_NEWS_TITLE: 'Edit news'
+    },
+    addDialog: {
+      isShow: false,
+      title: '',
+      key: ''
+    }
+  }),
   mounted() {
     this.$store.dispatch('GET_NEWS')
   },
@@ -32,7 +52,11 @@ export default {
     }
   },
   methods: {
-    addNewsHandler() {}
+    addNewsHandler() {
+      this.addDialog.title = this.enum.ADD_NEWS_TITLE
+      this.addDialog.key = this.enum.ADD_NEWS_TITLE
+      this.addDialog.isShow = true
+    }
   }
 }
 </script>
