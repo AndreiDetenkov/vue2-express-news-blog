@@ -37,7 +37,7 @@ const createRouter = () => {
   });
 
   router.post('/add', [isAuthorized, upload.single('image')], async (req, res) => {
-
+    console.log('body: ', req.body)
     for (let el in req.body) {
       if (!req.body[el]) {
         removeImage(req.file.path);
@@ -64,7 +64,6 @@ const createRouter = () => {
   });
 
   router.delete('/remove/:id', isAuthorized, async (req, res) => {
-    const id = req.params.id;
     try {
       const result = await News.findByIdAndRemove(id);
       if (result) {

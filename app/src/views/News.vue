@@ -2,11 +2,14 @@
   <v-container fluid class="px-8">
     <Notification />
     <NewsDialog
+      ref="newsDialog"
       :dialog="addDialog.isShow"
       :dialogKey="addDialog.key"
       :dialogTitle="addDialog.title"
       :categories="categories"
+      :loading="addDialog.loading"
       @close-add-dialog="addDialog.isShow = false"
+      @add-news="addNewsHandler"
     />
     <ImagePreview
       :dialog="preview.isShow"
@@ -16,7 +19,7 @@
     <v-row justify="center">
       <v-col cols="12">
         <v-card color="#f9f9f9">
-          <CardToolbar title="News" btnTitle="Add news" @add-news="addNewsHandler" />
+          <CardToolbar title="News" btnTitle="Add news" @open-news-dialog="openNewsDialogHandler" />
           <v-card-text>
             <DataTable
               :items="news"
@@ -61,7 +64,8 @@ export default {
     addDialog: {
       isShow: false,
       title: '',
-      key: ''
+      key: '',
+      loading: false
     },
     preview: {
       isShow: false,
@@ -83,15 +87,27 @@ export default {
     }
   },
   methods: {
-    async addNewsHandler() {
+    async openNewsDialogHandler() {
       await this.$store.dispatch('GET_CATEGORIES')
       this.addDialog.title = this.enum.ADD_NEWS_TITLE
-      this.addDialog.key = this.enum.ADD_NEWS_TITLE
+      this.addDialog.key = this.enum.ADD_NEWS
       this.addDialog.isShow = true
     },
     openPreviewHandler(image) {
       this.preview.image = image
       this.preview.isShow = true
+    },
+    async addNewsHandler(formData) {
+      // for (let [name, value] of formData) {
+      //   console.log(`${name} = ${value}`)
+      // }
+      try {
+        this.addDialog.loading = true
+        await this.$store.dispatch('CREATE_NEWS', formData)
+        this.addDialog.loading = false
+        this.$refs.newsDialog.closeDialogHandler()
+        // eslint-disable-next-line no-empty
+      } catch (e) {}
     }
   }
 }

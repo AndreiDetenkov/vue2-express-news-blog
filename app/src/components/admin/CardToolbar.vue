@@ -32,7 +32,7 @@ export default {
           this.$emit('create-category')
           break
         case 'News':
-          this.$emit('add-news')
+          this.$emit('open-news-dialog')
           break
       }
     }

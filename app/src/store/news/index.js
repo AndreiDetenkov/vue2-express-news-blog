@@ -33,6 +33,28 @@ export default {
             text: error.response.data.message
           })
         })
+    },
+    CREATE_NEWS({ dispatch }, formData) {
+      return axios({
+        method: 'POST',
+        url: '/news/add',
+        data: formData
+      })
+        .then(response => {
+          dispatch('GET_NEWS')
+          dispatch('NOTIFICATION', {
+            open: true,
+            color: 'success',
+            text: response.data.message
+          })
+        })
+        .catch(error => {
+          dispatch('NOTIFICATION', {
+            open: true,
+            color: 'error',
+            text: error.response.data.message
+          })
+        })
     }
   },
   getters: {
@@ -52,7 +74,6 @@ export default {
           userId: item.userId ? item.userId._id : null
         })
       })
-      console.log('n: ', n)
       return n
     },
     getNewsLoading: state => state.loading
