@@ -115,6 +115,9 @@ export default {
     closeDialogHandler() {
       this.$emit('close-add-dialog')
       this.files = []
+      this.news.title = ''
+      this.news.description = ''
+      this.news.categoryId = ''
       this.$refs.form.resetValidation()
     },
     addNews() {

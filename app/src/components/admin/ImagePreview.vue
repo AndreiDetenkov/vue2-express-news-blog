@@ -3,7 +3,7 @@
     <v-dialog v-model="dialog" persistent max-width="600">
       <v-card>
         <v-btn icon @click.stop="closeHandler" class="close-btn">
-          <v-icon color="grey lighten-1" lagre>close</v-icon>
+          <v-icon color="error" lagre>close</v-icon>
         </v-btn>
         <v-img :src="`${url}uploads/${image}`" contain />
       </v-card>
