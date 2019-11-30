@@ -1,7 +1,7 @@
 <template>
-  <section class="news">
+  <section class="news pt-6">
     <v-row justify="start" align="center" class="pr-12 pb-4">
-      <h2 class="headline text-uppercase font-weight-bold px-3">Latest news</h2>
+      <h2 class="news-block px-3">Latest news</h2>
       <v-divider />
     </v-row>
     <v-row justify="space-between">
@@ -38,6 +38,12 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.news-block {
+  color: #505050;
+  font-size: 24px;
+  font-weight: 700;
+  text-transform: uppercase;
+}
 #news {
   border-radius: 8px;
   .news-image {
