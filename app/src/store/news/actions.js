@@ -68,5 +68,18 @@ export default {
       .catch(error => {
         commit('GET_LATEST_NEWS_ERROR', error.response.data.message)
       })
+  },
+  GET_NEWS_ITEM({ commit, dispatch }, id) {
+    return axios({
+      method: 'GET',
+      url: `/news/${id}`
+    })
+      .then(response => {
+        commit('GET_NEWS_ITEM_SUCCESS', response.data)
+      })
+      .catch(error => {
+        commit('GET_NEWS_ITEM_ERROR', error.response.data.message)
+        dispatch('NOTIFICATION', { open: true, color: 'error', text: error.response.data.message })
+      })
   }
 }

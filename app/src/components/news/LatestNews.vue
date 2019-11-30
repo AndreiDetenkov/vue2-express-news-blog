@@ -2,12 +2,12 @@
   <section class="news pt-6">
     <BlockTitle title="Latest news" />
     <v-row justify="space-between">
-      <v-col xs="12" sm="6" md="4" lg="3" v-for="item in latestNews" :key="item._id">
+      <v-col xs="12" sm="6" md="4" lg="3" v-for="item in latestNews" :key="item.id">
         <v-card flat id="news">
           <v-img :src="`${baseUrl}uploads/${item.image}`" class="news-image" />
           <v-card-text class="px-0">
             <h4 class="news-category">{{ item.category }}</h4>
-            <h4 class="news-title">{{ item.title }}</h4>
+            <router-link class="news-title" :to="`/news/${item.id}`">{{ item.title }}</router-link>
             <h6 class="news-author">{{item.username + ', ' + item.date}}</h6>
           </v-card-text>
         </v-card>
@@ -53,6 +53,8 @@ export default {
     color: #505050;
     font-weight: 700;
     text-transform: uppercase;
+    cursor: pointer;
+    text-decoration: none;
   }
   .news-author {
     font-family: 'Montserrat', sans-serif;

@@ -38,5 +38,6 @@ export default {
   },
   getNewsByCategories: state => category => {
     return state.news.filter(item => item.categoryId.title === category).splice(0, 3)
-  }
+  },
+  getNewsItem: state => state.newsItem[0]
 }

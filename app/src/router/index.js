@@ -11,6 +11,13 @@ const routes = [
     meta: { layout: 'main' }
   },
   {
+    path: '/news/:id',
+    name: 'news-page',
+    component: () => import('@/views/NewsPage'),
+    props: true,
+    meta: { layout: 'main' }
+  },
+  {
     path: '/auth',
     name: 'auth',
     component: () => import('@/views/Auth'),

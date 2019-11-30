@@ -47,14 +47,14 @@ const createRouter = () => {
     }
   });
 
-  router.get('/:categoryId', async (req, res) => {
-    const categoryId = req.params.categoryId;
+  router.get('/:id', async (req, res) => {
+    const id = req.params.id;
     try {
-      const news = await News.find({ categoryId })
+      const news = await News.find({ _id: id })
         .populate({ path: 'userId', select: 'username' });
       if (news) return res.send(news);
     } catch (e) {
-      return res.status(404).send({ message: 'There are not any news by this category.', error: e });
+      return res.status(404).send({ message: 'There are not any news.', error: e });
     }
   });
 
