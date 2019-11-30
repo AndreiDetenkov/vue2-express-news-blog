@@ -3,7 +3,7 @@
     <AppBar />
     <Notification />
     <v-container>
-      <p>news</p>
+      <LatestNews />
     </v-container>
   </v-content>
 </template>
@@ -13,7 +13,8 @@ export default {
   name: 'Main',
   components: {
     AppBar: () => import('@/components/news/AppBar'),
-    Notification: () => import('@/components/ui/Notification')
+    Notification: () => import('@/components/ui/Notification'),
+    LatestNews: () => import('@/components/news/LatestNews')
   }
 }
 </script>

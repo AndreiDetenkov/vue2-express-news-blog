@@ -36,6 +36,28 @@ const createRouter = () => {
     }
   });
 
+  router.get('/latest', async (req, res) => {
+    try {
+      const news = await News.find().sort({ date: -1 }).limit(8)
+        .populate({ path: 'categoryId', select: 'title' })
+        .populate({ path: 'userId', select: 'username' });
+      if (news) return res.send(news);
+    } catch (e) {
+      return res.status(404).send({ message: 'There are not any news.', error: e });
+    }
+  });
+
+  router.get('/:categoryId', async (req, res) => {
+    const categoryId = req.params.categoryId;
+    try {
+      const news = await News.find({ categoryId })
+        .populate({ path: 'userId', select: 'username' });
+      if (news) return res.send(news);
+    } catch (e) {
+      return res.status(404).send({ message: 'There are not any news by this category.', error: e });
+    }
+  });
+
   router.post('/add', [isAuthorized, upload.single('image')], async (req, res) => {
     for (let el in req.body) {
       if (!req.body[el]) {
