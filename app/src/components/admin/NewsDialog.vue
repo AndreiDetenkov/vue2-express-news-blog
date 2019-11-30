@@ -5,7 +5,9 @@
         <v-card-title class="pb-8">
           <v-row justify="space-between" no-gutters>
             <span class="headline font-weight-bold">{{ dialogTitle }}</span>
-            <v-btn icon @click.stop="closeDialogHandler"><v-icon color="black">close</v-icon></v-btn>
+            <v-btn icon @click.stop="closeDialogHandler">
+              <v-icon color="black">close</v-icon>
+            </v-btn>
           </v-row>
         </v-card-title>
         <v-card-text class="text-center">
@@ -40,7 +42,6 @@
               outlined
               dense
               show-size
-              validate-on-blur
               prepend-icon="mdi-camera"
               accept="image/jpg, image/jpeg"
             />
@@ -85,6 +86,10 @@ export default {
     loading: {
       type: Boolean,
       default: false
+    },
+    item: {
+      type: Object,
+      default: () => {}
     }
   },
   data: () => ({
@@ -94,32 +99,51 @@ export default {
       categoryId: ''
     },
     files: [],
-    enum: {
-      ADD_NEWS: 'add_news',
-      EDIT_NEWS: 'edit_news'
-    },
+    enum: { ADD_NEWS: 'add_news', EDIT_NEWS: 'edit_news' },
     valid: true
   }),
+  watch: {
+    item(val) {
+      if (val) {
+        this.news.title = val.title
+        this.news.description = val.description
+        this.news.categoryId = val.categoryId
+      }
+    }
+  },
   methods: {
     closeDialogHandler() {
       this.$emit('close-add-dialog')
-      this.$refs.form.reset()
+      this.files = []
       this.$refs.form.resetValidation()
+    },
+    addNews() {
+      const formData = new FormData()
+      Object.keys(this.news).forEach(key => {
+        formData.append(key, this.news[key])
+      })
+      formData.append('image', this.files)
+      this.$emit('add-news', formData)
+    },
+    editNews() {
+      const id = this.item.id
+      const formData = new FormData()
+      formData.append('title', this.news.title)
+      formData.append('description', this.news.description)
+      formData.append('categoryId', this.news.categoryId)
+      formData.append('userId', this.item.userId)
+      formData.append('date', this.item.noFormatDate)
+      if (this.files.length !== 0) formData.append('image', this.files)
+      this.$emit('edit-news', formData, id)
     },
     onSubmitHandler() {
       if (this.$refs.form.validate()) {
-        const formData = new FormData()
-        Object.keys(this.news).forEach(key => {
-          formData.append(key, this.news[key])
-        })
-        formData.append('image', this.files)
-
         switch (this.dialogKey) {
           case this.enum.ADD_NEWS:
-            this.$emit('add-news', formData)
+            this.addNews()
             break
           case this.enum.EDIT_NEWS:
-            this.$emit('edit-news', formData)
+            this.editNews()
             break
         }
       }

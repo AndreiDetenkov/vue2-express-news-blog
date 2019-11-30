@@ -8,8 +8,10 @@
       :dialogTitle="addDialog.title"
       :categories="categories"
       :loading="addDialog.loading"
+      :item="addDialog.item"
       @close-add-dialog="addDialog.isShow = false"
       @add-news="addNewsHandler"
+      @edit-news="editNewsHandler"
     />
     <ImagePreview
       :dialog="preview.isShow"
@@ -36,6 +38,7 @@
               :loading="getNewsLoading"
               @open-image-preview-dialog="openPreviewHandler"
               @open-remove-news-dialog="openRemoveNewsDialog"
+              @open-edit-news-dialog="openEditNewsDialog"
             />
           </v-card-text>
         </v-card>
@@ -76,7 +79,8 @@ export default {
       isShow: false,
       title: '',
       key: '',
-      loading: false
+      loading: false,
+      item: {}
     },
     preview: {
       isShow: false,
@@ -138,6 +142,23 @@ export default {
       this.removeDialog.id = id
       this.removeDialog.news = title
       this.removeDialog.isShow = true
+    },
+    async openEditNewsDialog(item) {
+      await this.$store.dispatch('GET_CATEGORIES')
+      this.addDialog.title = this.enum.EDIT_NEWS_TITLE
+      this.addDialog.key = this.enum.EDIT_NEWS
+      this.addDialog.item = item
+      this.addDialog.isShow = true
+    },
+    async editNewsHandler(formData, id) {
+      try {
+        this.addDialog.loading = true
+        await this.$store.dispatch('EDIT_NEWS', { id, formData })
+        this.addDialog.loading = false
+        this.$refs.newsDialog.closeDialogHandler()
+      } catch (e) {
+        this.addDialog.loading = false
+      }
     }
   }
 }

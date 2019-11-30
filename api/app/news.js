@@ -37,10 +37,9 @@ const createRouter = () => {
   });
 
   router.post('/add', [isAuthorized, upload.single('image')], async (req, res) => {
-    console.log('body: ', req.body)
     for (let el in req.body) {
       if (!req.body[el]) {
-        removeImage(req.file.path);
+        if (req.file) removeImage(req.file.path);
         return res.status(400).send({ message: `${el} is required` });
       }
     }

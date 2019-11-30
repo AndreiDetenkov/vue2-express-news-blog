@@ -27,55 +27,48 @@ export default {
         })
         .catch(error => {
           commit('LOADING', false)
-          dispatch('NOTIFICATION', {
-            open: true,
-            color: 'error',
-            text: error.response.data.message
-          })
+          dispatch('NOTIFICATION', { open: true, color: 'error', text: error.response.data.message })
         })
     },
     CREATE_NEWS({ dispatch }, formData) {
-      return axios({
+      axios({
         method: 'POST',
         url: '/news/add',
         data: formData
       })
         .then(response => {
           dispatch('GET_NEWS')
-          dispatch('NOTIFICATION', {
-            open: true,
-            color: 'success',
-            text: response.data.message
-          })
+          dispatch('NOTIFICATION', { open: true, color: 'success', text: response.data.message })
         })
         .catch(error => {
-          dispatch('NOTIFICATION', {
-            open: true,
-            color: 'error',
-            text: error.response.data.message
-          })
+          dispatch('NOTIFICATION', { open: true, color: 'error', text: error.response.data.message })
         })
     },
     REMOVE_NEWS({ dispatch }, { id }) {
-      console.log(id)
       return axios({
         method: 'DELETE',
         url: `/news/remove/${id}`
       })
         .then(response => {
           dispatch('GET_NEWS')
-          dispatch('NOTIFICATION', {
-            open: true,
-            color: 'success',
-            text: response.data.message
-          })
+          dispatch('NOTIFICATION', { open: true, color: 'success', text: response.data.message })
         })
         .catch(error => {
-          dispatch('NOTIFICATION', {
-            open: true,
-            color: 'error',
-            text: error.response.data.message
-          })
+          dispatch('NOTIFICATION', { open: true, color: 'error', text: error.response.data.message })
+        })
+    },
+    EDIT_NEWS({ dispatch }, { formData, id }) {
+      axios({
+        method: 'PUT',
+        url: `/news/update/${id}`,
+        data: formData
+      })
+        .then(response => {
+          dispatch('GET_NEWS')
+          dispatch('NOTIFICATION', { open: true, color: 'success', text: response.data.message })
+        })
+        .catch(error => {
+          dispatch('NOTIFICATION', { open: true, color: 'error', text: error.response.data.message })
         })
     }
   },
@@ -89,6 +82,7 @@ export default {
           title: item.title,
           description: item.description,
           date: moment(item.date).format('LL'),
+          noFormatDate: item.date,
           image: item.imageName,
           category: item.categoryId ? item.categoryId.title : null,
           categoryId: item.categoryId ? item.categoryId._id : null,

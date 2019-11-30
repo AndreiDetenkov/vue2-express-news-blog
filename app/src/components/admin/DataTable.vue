@@ -94,7 +94,9 @@ export default {
     openRemoveNewsDialogHandler(id, title) {
       this.$emit('open-remove-news-dialog', id, title)
     },
-    editNewsHandler() {}
+    editNewsHandler(item) {
+      this.$emit('open-edit-news-dialog', item)
+    }
   }
 }
 </script>
