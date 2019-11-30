@@ -1,7 +1,9 @@
 <template>
   <v-app-bar app dense flat>
-    <v-app-bar-nav-icon />
-    <v-toolbar-title>News</v-toolbar-title>
+    <!--    <v-app-bar-nav-icon />-->
+    <v-toolbar-title>
+      <v-img src="@/assets/Logo.png" />
+    </v-toolbar-title>
     <v-spacer />
     <v-btn text to="/auth">
       <v-icon left>exit_to_app</v-icon>

@@ -30,5 +30,6 @@ export default {
   font-size: 14px;
   font-weight: 400;
   color: #333;
+  background: #fff;
 }
 </style>
