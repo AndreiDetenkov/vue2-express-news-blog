@@ -1,9 +1,6 @@
 <template>
   <section class="news pt-6">
-    <v-row justify="start" align="center" class="pr-12 pb-4">
-      <h2 class="news-block px-3">Latest news</h2>
-      <v-divider />
-    </v-row>
+    <BlockTitle title="Latest news" />
     <v-row justify="space-between">
       <v-col xs="12" sm="6" md="4" lg="3" v-for="item in latestNews" :key="item._id">
         <v-card flat id="news">
@@ -11,6 +8,7 @@
           <v-card-text class="px-0">
             <h4 class="news-category">{{ item.category }}</h4>
             <h4 class="news-title">{{ item.title }}</h4>
+            <h6 class="news-author">{{item.username + ', ' + item.date}}</h6>
           </v-card-text>
         </v-card>
       </v-col>
@@ -20,12 +18,9 @@
 
 <script>
 import axios from 'axios'
-
 export default {
   name: 'LatestNews',
-  mounted() {
-    this.$store.dispatch('GET_LATEST_NEWS')
-  },
+  components: { BlockTitle: () => import('@/components/news/BlockTitle') },
   data: () => ({
     baseUrl: axios.defaults.baseURL
   }),
@@ -38,12 +33,6 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.news-block {
-  color: #505050;
-  font-size: 24px;
-  font-weight: 700;
-  text-transform: uppercase;
-}
 #news {
   border-radius: 8px;
   .news-image {
@@ -64,6 +53,11 @@ export default {
     color: #505050;
     font-weight: 700;
     text-transform: uppercase;
+  }
+  .news-author {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 11px;
+    color: #8f8f8f;
   }
 }
 </style>

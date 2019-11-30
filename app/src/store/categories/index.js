@@ -139,6 +139,7 @@ export default {
       })
       array.unshift({ id: null, title: 'none' })
       return array
-    }
+    },
+    getCategories: state => state.parentCategories
   }
 }
